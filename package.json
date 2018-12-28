@@ -1,0 +1,16 @@
+{
+  "name": "VipCardNode2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4",
+    "request": "^2.88.0",
+    "sequelize": "^4.42.0",
+    "uuid": "^3.3.2",
+    "wechat-api": "^1.35.1"
+  }
+}
