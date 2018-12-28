@@ -16,7 +16,9 @@ router.get('/get',(req,res,next)=>{
         offset:0,    //分页暂时先写死
         limit:2
     }).then(data =>{
-        console.log(data);
+        res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data}));
+    }).catch(err =>{
+        res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
 });
 
@@ -42,7 +44,9 @@ router.post('/posttemp',(req,res,next)=>{
         level : 1,
         createTime : common.getTime()
     }).then(data =>{
-        console.log(data);
+        res.end(JSON.stringify({errcode : "0", errmsg : "注册成功，请等待顾问审核"}));
+    }).catch(err =>{
+        res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
 });
 module.exports = router;
