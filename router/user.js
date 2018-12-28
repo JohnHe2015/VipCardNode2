@@ -25,10 +25,19 @@ router.get('/get',(req,res,next)=>{
 
 router.post('/post',(req,res,next)=>{
     let {ID,username,password,mobile,birthday,sex,level} = req.body;
-    req.User_Model.save({
-
+    req.User_Model.create({
+        id : ID,
+        username : username,
+        password : password,
+        mobile : mobile,
+        birthday : birthday,
+        sex : sex,
+        level : level,
+        createTime : common.getTime()
     }).then(data =>{
-
+        res.end(JSON.stringify({errcode : "0", errmsg : "恭喜您，用户已审核通过！"}));
+    }).catch(err =>{
+        res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
 });
 
@@ -45,6 +54,39 @@ router.post('/posttemp',(req,res,next)=>{
         createTime : common.getTime()
     }).then(data =>{
         res.end(JSON.stringify({errcode : "0", errmsg : "注册成功，请等待顾问审核"}));
+    }).catch(err =>{
+        res.end(JSON.stringify({errcode : "400", errmsg : err}));
+    })
+});
+
+router.get('/gettemp',(req,res,next)=>{
+    let {username,mobile,birthday,sex,level} = req.query;
+    let whereParams = {};
+    if(username) whereParams.username = {[req.Op.like]: `%${username}%`};
+    if(mobile) whereParams.mobile = {[req.Op.like]: `%${mobile}%`};
+    if(birthday) whereParams.birthday = birthday;
+    if(sex) whereParams.sex = sex;
+    if(level) whereParams.level = level;
+    req.Usertemp_Model.findAll({
+        where : whereParams, 
+        raw:true,
+        offset:0,    //分页暂时先写死
+        limit:2
+    }).then(data =>{
+        res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data}));
+    }).catch(err =>{
+        res.end(JSON.stringify({errcode : "400", errmsg : err}));
+    })
+});
+
+router.post('/deltemp',(req,res,next)=>{
+    let {id} = req.body;
+    req.Usertemp_Model.destroy({
+        where : {
+            id : {[req.Op.eq] : id}
+        }
+    }).then(data =>{
+        res.end(JSON.stringify({errcode : "0", errmsg : "删除成功！"}));
     }).catch(err =>{
         res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
