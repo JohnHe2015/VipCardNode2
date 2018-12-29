@@ -3,20 +3,22 @@ const router = express.Router();
 const common = require('./../common/common');
 
 router.get('/get',(req,res,next)=>{
-    let {username,mobile,birthday,sex,level} = req.query;
+    let {username,mobile,birthday,sex,level,page,pageSize} = req.query;
+    let offset = (parseInt(page)-1) * parseInt(pageSize);  //偏移量
+    let limit = parseInt(pageSize);                        //一页显示条数
     let whereParams = {};
     if(username) whereParams.username = {[req.Op.like]: `%${username}%`};
     if(mobile) whereParams.mobile = {[req.Op.like]: `%${mobile}%`};
     if(birthday) whereParams.birthday = birthday;
-    if(sex) whereParams.sex = sex;
-    if(level) whereParams.level = level;
-    req.User_Model.findAll({
+    if(sex) whereParams.sex = parseInt(sex);
+    if(level) whereParams.level = parseInt(level);
+    req.User_Model.findAndCountAll({
         where : whereParams, 
         raw:true,
-        offset:0,    //分页暂时先写死
-        limit:2
+        offset: offset,
+        limit: limit
     }).then(data =>{
-        res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data}));
+        res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data.rows, count : data.count}));
     }).catch(err =>{
         res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
@@ -70,8 +72,8 @@ router.get('/gettemp',(req,res,next)=>{
     req.Usertemp_Model.findAll({
         where : whereParams, 
         raw:true,
-        offset:0,    //分页暂时先写死
-        limit:2
+        //offset:0,    //分页暂时先写死
+        //limit:2
     }).then(data =>{
         res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data}));
     }).catch(err =>{

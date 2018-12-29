@@ -86,6 +86,10 @@ router.post('/post',(req,res,next)=>{
    
 });
 
+router.get('/get',(req,res,next)=>{
+    
+})
+
 
 
 
