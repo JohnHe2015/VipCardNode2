@@ -24,9 +24,9 @@ router.get('/get',(req,res,next)=>{
 
 
 router.post('/post',(req,res,next)=>{
-    let {ID,username,password,mobile,birthday,sex,level} = req.body;
+    let {id,username,password,mobile,birthday,sex,level} = req.body;
     req.User_Model.create({
-        id : ID,
+        id : id,
         username : username,
         password : password,
         mobile : mobile,

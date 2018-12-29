@@ -12,10 +12,7 @@ module.exports = (sequelize, DataTypes)=>{
       password : 
         {
           type : DataTypes.STRING(32),
-          set : (pwd)=>{
-            //   let password = this.getDataValue('password');
-            //   this.setDataValue('password',common.md5(pwd));
-          }
+        
         },
       mobile : DataTypes.STRING(11),
       sex : DataTypes.STRING(10),
@@ -23,10 +20,7 @@ module.exports = (sequelize, DataTypes)=>{
       level : 
         {
           type : DataTypes.INTEGER(1),
-          set : (amount)=>{
-              let value = amount > 5000 ? 2 : 1;
-            //   this.setDataValue('level',value);
-          }
+          
         },
       createTime : 
         {
