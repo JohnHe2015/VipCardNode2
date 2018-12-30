@@ -10,8 +10,8 @@ router.get('/get',(req,res,next)=>{
     if(username) whereParams.username = {[req.Op.like]: `%${username}%`};
     if(mobile) whereParams.mobile = {[req.Op.like]: `%${mobile}%`};
     if(birthday) whereParams.birthday = birthday;
-    if(sex) whereParams.sex = parseInt(sex);
-    if(level) whereParams.level = parseInt(level);
+    if(sex) whereParams.sex = sex;
+    if(level) whereParams.level = level;
     req.User_Model.findAndCountAll({
         where : whereParams, 
         raw:true,
