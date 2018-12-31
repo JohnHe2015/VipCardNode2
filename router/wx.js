@@ -145,7 +145,7 @@ router.get('/get_wx_access_token', function(req,res, next){
                             //     <p><img src='"+userinfo.headimgurl+"' /></p>\
                             //     <p>"+userinfo.city+"，"+userinfo.province+"，"+userinfo.country+"</p>\
                             // ");
-                            res.redirect("http://m.zhengshuqian.com/index.html");
+                            res.redirect(`http://m.zhengshuqian.com/?username=${userinfo.nickname}`);
                             
                         }else{
                             console.log(response.statusCode);
