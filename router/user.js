@@ -44,9 +44,9 @@ router.post('/post',(req,res,next)=>{
 });
 
 router.post('/posttemp',(req,res,next)=>{
-    let {username,password,mobile,birthday,sex} = req.body;
+    let {id,username,password,mobile,birthday,sex} = req.body;
     req.Usertemp_Model.create({
-        id : common.uuid(),
+        id : id,          //get openid from wx
         username : username,
         password : common.md5(password),
         mobile : mobile,
