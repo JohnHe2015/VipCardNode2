@@ -98,7 +98,8 @@ router.get('/config/get',(req,res,next)=>{
 router.get('/auth',(req,res,next)=>{
     var router = 'wx/get_wx_access_token';
     // 这是编码后的地址
-    var return_uri = encodeURIComponent('http://m.zhengshuqian.com/index.html'+router);
+    //var return_uri = encodeURIComponent('http://m.zhengshuqian.com/index.html'+router);
+    var return_uri = encodeURIComponent('http://api.zhengshuqian.com/'+router);
     var scope = 'snsapi_userinfo';
     res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxConfig.wx.appID}&redirect_uri=${return_uri}&response_type=code&scope=${scope}&state=STATE#wechat_redirect`);
     //res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE#wechat_redirect');
@@ -139,11 +140,12 @@ router.get('/get_wx_access_token', function(req,res, next){
                             console.log('获取微信信息成功！');
                             
                             // 小测试，实际应用中，可以由此创建一个帐户
-                            res.send("\
-                                <h1>"+userinfo.nickname+" 的个人信息</h1>\
-                                <p><img src='"+userinfo.headimgurl+"' /></p>\
-                                <p>"+userinfo.city+"，"+userinfo.province+"，"+userinfo.country+"</p>\
-                            ");
+                            // res.send("\
+                            //     <h1>"+userinfo.nickname+" 的个人信息</h1>\
+                            //     <p><img src='"+userinfo.headimgurl+"' /></p>\
+                            //     <p>"+userinfo.city+"，"+userinfo.province+"，"+userinfo.country+"</p>\
+                            // ");
+                            res.redirect("http://m.zhengshuqian.com/index.html");
                             
                         }else{
                             console.log(response.statusCode);
