@@ -87,20 +87,20 @@ router.post('/post',(req,res,next)=>{
 });
 
 router.get('/get',(req,res,next)=>{
-    let {username,type,rate,startTime,endTime,isUse,useTime,createTime} = req.query;
-    //let offset = (parseInt(page)-1) * parseInt(pageSize);  //偏移量
-    //let limit = parseInt(pageSize);                        //一页显示条数
+    let {username,type,rate,startTime,endTime,isUse,useTime,createTime,page,pageSize} = req.query;
+    let offset = (parseInt(page)-1) * parseInt(pageSize);  //偏移量
+    let limit = parseInt(pageSize);                        //一页显示条数
     let whereParams = {};
     if(username) whereParams.username = {[req.Op.like]: `%${username}%`};
     if(type) whereParams.type = type;
     if(isUse) whereParams.birthday = isUse;
     //if(sex) whereParams.sex = parseInt(sex);
     //if(level) whereParams.level = parseInt(level);
-    req.User_Model.findAndCountAll({
+    req.Coupon_Model.findAndCountAll({
         where : whereParams, 
         raw:true,
-        //offset: offset,
-        //limit: limit
+        offset: offset,
+        limit: limit
     }).then(data =>{
         res.end(JSON.stringify({errcode : "0", errmsg : "success",result : data.rows, count : data.count}));
     }).catch(err =>{
