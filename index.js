@@ -5,6 +5,7 @@ const dbconfig = require('./config/mysql.config.js');
 const Sequelize = require('sequelize');
 const userRouter = require('./router/user');
 const couponRouter = require('./router/coupon');
+const wxRouter = require('./router/wx');
 
 const app = express();
 app.listen(8081);
@@ -53,4 +54,4 @@ app.use(bodyParser.json());
 
 app.use('/user',userRouter);
 app.use('/coupon',couponRouter);
-// app.use('/wx',wxRouter);
+app.use('/wx',wxRouter);
