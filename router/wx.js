@@ -150,5 +150,16 @@ router.get('/get_wx_access_token', function(req,res, next){
     );
 });
 
+router.get('/sendText',(req,res,next)=>{
+    api.sendText(req.query.id, '宝贝哈哈哈哈哈哈，你通过了哈尼的审核咯', (err,result)=>{
+        if(err) console.log(err);
+        else
+        {
+            console.log(result);
+            res.end();
+        }
+    });
+});
+
 
 module.exports = router;
