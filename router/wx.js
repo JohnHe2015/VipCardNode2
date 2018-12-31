@@ -111,7 +111,6 @@ router.get('/auth',(req,res,next)=>{
 router.get('/get_wx_access_token', function(req,res, next){
     //console.log("get_wx_access_token")
     //console.log("code_return: "+req.query.code)
-    
     // 第二步：通过code换取网页授权access_token
     var code = req.query.code;
     request.get(
@@ -136,16 +135,8 @@ router.get('/get_wx_access_token', function(req,res, next){
                             
                             // 第四步：根据获取的用户信息进行对应操作
                             var userinfo = JSON.parse(body);
-                            //console.log(JSON.parse(body));
                             console.log('获取微信信息成功！');
-                            
-                            // 小测试，实际应用中，可以由此创建一个帐户
-                            // res.send("\
-                            //     <h1>"+userinfo.nickname+" 的个人信息</h1>\
-                            //     <p><img src='"+userinfo.headimgurl+"' /></p>\
-                            //     <p>"+userinfo.city+"，"+userinfo.province+"，"+userinfo.country+"</p>\
-                            // ");
-                            res.redirect(`http://m.zhengshuqian.com/register?username=${userinfo.nickname}&city=${userinfo.city}`);
+                            res.redirect(`http://m.zhengshuqian.com/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
                             
                         }else{
                             console.log(response.statusCode);
