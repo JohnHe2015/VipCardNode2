@@ -136,6 +136,7 @@ router.get('/get_wx_access_token', function(req,res, next){
                             // 第四步：根据获取的用户信息进行对应操作
                             var userinfo = JSON.parse(body);
                             console.log('获取微信信息成功！');
+                            console.log(JSON.stringify(userinfo));
                             res.redirect(`http://m.zhengshuqian.com/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
                             
                         }else{
