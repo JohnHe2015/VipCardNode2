@@ -56,4 +56,4 @@ app.use(bodyParser.json());
 app.use('/user',userRouter);
 app.use('/coupon',couponRouter);
 app.use('/wx',wxRouter);
-app.use('./login',loginRouter);
+app.use('/login',loginRouter);
