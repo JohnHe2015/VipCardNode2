@@ -15,3 +15,5 @@ router.get('/isLogin',(req,res,next)=>{    //判断微信用户是否存在，�
     })
 
 });
+
+module.exports = router;
