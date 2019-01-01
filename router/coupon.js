@@ -108,6 +108,21 @@ router.get('/get',(req,res,next)=>{
     })
 })
 
+router.get('/getById/:id',(req,res,next)=>{
+    let id = req.params.id;
+    req.Coupon_Model.findOne({ where: {id: id}}).then(data =>{
+        if(data != null)
+        {
+            console.log("查到的优惠券是:" +JSON.stringify(data));
+            res.end(JSON.stringify(data));
+        }
+        else
+        {
+            res.end(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+        }
+    });
+})
+
 
 
 
