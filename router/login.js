@@ -11,11 +11,11 @@ router.get('/isLogin',(req,res,next)=>{    //判断微信用户是否存在，�
         if(data != null)
         {
             console.log('come in 1');
-            res.end(JSON.stringify({errcode : "1", errmsg : "对不起，该用户已存在"}));   //存在
+            res.end(JSON.stringify({errcode : "1", errmsg : "该用户已存在"}));   //存在
         }
         else{
             console.log('come in 2');
-            res.end(JSON.stringify({errcode : "0", errmsg : "恭喜您，注册成功"}));   //不存在
+            res.end(JSON.stringify({errcode : "0", errmsg : "该用户不存在可以注册"}));   //不存在
         }
     })
 
