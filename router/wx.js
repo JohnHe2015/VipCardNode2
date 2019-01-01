@@ -95,7 +95,7 @@ router.get('/config/get',(req,res,next)=>{
     });
 })
 
-router.get('/auth',(req,res,next)=>{
+router.get('/auth',(req,res,next)=>{       //第三方菜单认证接口
     var router = 'wx/get_wx_access_token';
     // 这是编码后的地址
     //var return_uri = encodeURIComponent('http://m.zhengshuqian.com/index.html'+router);
@@ -150,7 +150,7 @@ router.get('/get_wx_access_token', function(req,res, next){
     );
 });
 
-router.get('/sendText',(req,res,next)=>{
+router.get('/sendText',(req,res,next)=>{       // 发送普通消息的接口
     console.log("接口收到的id为:" +req.query.id);
     api.sendText(req.query.id, '宝贝哈哈哈哈哈哈，你通过了哈尼的审核咯', (err,result)=>{
         if(err) console.log(err);
@@ -161,6 +161,51 @@ router.get('/sendText',(req,res,next)=>{
         }
     });
 });
+
+
+
+router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
+    let templateId = "a9pGztMTAwImJ0ZtFp3NHDJbB3ToqnX2IjFtdni8_cQ";   //发送消息的模版ID
+    let url = "api.zhengshuqian.com/coupon.html";
+    let data = {
+        "level":{
+            "value" : req.query.level == 1 ? "普通会员" : "Vip会员",
+            "color" : "#173177"
+        },
+        "type1" : {
+            "value" : req.query.type1,
+            "color" : "#173177"
+        },
+        "type2" : {
+            "value" : req.query.type2,
+            "color" : "#173177"
+        },
+        "type3" : {
+            "value" : req.query.type3,
+            "color" : "#173177"
+        },
+        "type1Sum" : {
+            "value" : req.query.type1Sum,
+            "color" : "#173177"
+        },
+        "type2Sum" : {
+            "value" : req.query.type2Sum,
+            "color" : "#173177"
+        },
+        "type3Sum" : {
+            "value" : req.query.type3Sum,
+            "color" : "#173177"
+        }
+    }
+    api.sendTemplate(req.query.id, templateId, url, data, (err,result)=>{
+        if(err) console.log(err);
+        else{
+            console.log(result);
+            res.end(result);
+        }
+    });
+
+})
 
 
 module.exports = router;
