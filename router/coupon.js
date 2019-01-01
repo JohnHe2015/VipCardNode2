@@ -123,7 +123,7 @@ router.get('/getById/:id',(req,res,next)=>{
                 headers: {
                     "content-type": "application/json",
                 },
-                body: {data : JSON.stringify(data)}
+                body: {data : data}
             }, function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     console.log('传递coupon数据成功！')
