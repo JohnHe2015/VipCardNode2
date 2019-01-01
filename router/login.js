@@ -7,11 +7,11 @@ router.get('/isLogin',(req,res,next)=>{    //判断微信用户是否存在，�
     console.log(JSON.stringify(req.query));
     let id = req.query.id;
     req.User_Model.findOne({ where: {id: id}}).then(data =>{
-        //console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
         if(data != null)
         {
             console.log('come in 1');
-            res.end(JSON.stringify({errcode : "1", errmsg : "该用户已存在"}));   //存在
+            res.end(JSON.stringify({errcode : "1", errmsg : "该用户已存在",username : data.username,id : data.id}));   //存在,并传递用户名和id给用户ejs
         }
         else{
             console.log('come in 2');
