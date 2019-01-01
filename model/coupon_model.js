@@ -3,9 +3,6 @@ module.exports = (sequelize, DataTypes)=>{
         id: {
             type: DataTypes.STRING(32),
             primaryKey: true,
-            get : ()=>{
-                return common.uuid();
-            }
           },  
         username : DataTypes.STRING(32),
         type : DataTypes.INTEGER(1),
