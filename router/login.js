@@ -8,7 +8,7 @@ router.get('/isLogin',(req,res,next)=>{    //判断微信用户是否存在，�
     let id = req.query.id;
     req.User_Model.findOne({ where: {id: id}}).then(data =>{
         console.log(JSON.stringify(data));
-        if(data.length > 0)
+        if(data)
         {
             res.end({errcode : 1});   //存在
         }
