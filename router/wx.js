@@ -201,7 +201,7 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
         if(err) console.log(err);
         else{
             console.log(result);
-            res.end(result);
+            res.end();
         }
     });
 
