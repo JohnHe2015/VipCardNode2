@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const common = require('./../common/common');
+const request = require('request');
 
 router.post('/post',(req,res,next)=>{
     let insertBatch = [];
@@ -110,11 +111,25 @@ router.get('/get',(req,res,next)=>{
 
 router.get('/getById/:id',(req,res,next)=>{
     let id = req.params.id;
-    req.Coupon_Model.findOne({ where: {id: id}}).then(data =>{
+    req.Coupon_Model.findAll({ where: {id: id},raw:true}).then(data =>{
         if(data != null)
         {
             console.log("查到的优惠券是:" +JSON.stringify(data));
-            res.end(JSON.stringify(data));
+
+            request({
+                url: 'http://m.zhengshuqian.com/coupon',
+                method: "POST",
+                json: true,
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data)
+            }, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log('传递coupon数据成功！')
+                }
+            }); 
+            
         }
         else
         {
