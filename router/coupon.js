@@ -118,7 +118,7 @@ router.get('/getById/:id',(req,res,next)=>{
 
             request.post({
                 url: 'http://m.zhengshuqian.com/coupon',
-                form: data
+                form: {data : data}
             }, function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     console.log('传递coupon数据成功！')
