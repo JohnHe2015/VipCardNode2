@@ -109,7 +109,7 @@ router.get('/get',(req,res,next)=>{
     })
 })
 
-router.get('/getById/:id',(req,res,next)=>{    //查询用户的优惠券接口
+router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
     let id = req.params.id;
     // req.Coupon_Model.findAll({ where: {id: id},raw:true}).then(data =>{
     //     if(data != null)
@@ -124,8 +124,8 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户的优惠券接口
     // });
 
     //select count(type),type,startTime,endTime from coupon_table where username='edwdwa' GROUP BY type,endTime order by endTime ;
-    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id GROUP BY type,endTime ORDER BY endTime',
-    {replacements: { id: id }, type: req.sequelize.QueryTypes.SELECT})
+    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime ORDER BY endTime',
+    {replacements: { id : id , isUse : 0}, type: req.sequelize.QueryTypes.SELECT})
     .then(result=>{
         if(result != null)
         {
@@ -137,7 +137,18 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户的优惠券接口
             res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
         }
     })
-})
+});
+
+
+router.get('/verification',(req,res,next)=>{    //核销优惠券
+    let {id,type,startTime,endTime,count} = req.query;
+    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse where id = :id and type = :type and startTime = :startTime and endTime = :endTime LIMIT :count',
+    { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime},type : req.sequelize.QueryTypes.UPDATE})
+    .then(result =>{
+        console.log(result);
+        res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
+    })
+});
 
 
 
