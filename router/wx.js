@@ -66,20 +66,6 @@ router.post('/groups/post',(req,res,next)=>{
 });
 
 
-//获取临时二维码的url地址
-router.get('/qrcord/get',(req,res,next)=>{
-    api.createTmpQRCode(10000, 1800, (err,result)=>{
-        if(err){
-            console.log(err);
-        }
-        else
-        {
-            console.log(api.showQRCodeURL(result.ticket));
-            log.info(api.showQRCodeURL(result.ticket));
-        }
-    });
-})
-
 router.get('/config/get',(req,res,next)=>{
     var param = {
         debug : true,
@@ -208,6 +194,21 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
     });
 
 })
+
+router.get('/generateQR',(req,res,next)=>{
+    let data = "www.baidu.com";
+    api.createTmpQRCode(data, 1800, (err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            let imgSrc = api.showQRCodeURL(result.ticket);
+            console.log(imgSrc);
+            res.send(JSON.stringify({errcode : "0", errmsg : "生成成功", result : imgSrc}));
+        }
+    });
+});
 
 
 module.exports = router;
