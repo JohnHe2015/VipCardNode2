@@ -127,7 +127,15 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户的优惠券接口
     req.sequelize.query('SELECT COUNT(type) AS count, type, startTime, endTime FROM coupon_table WHERE id = :id GROUP BY type,endTime ORDER BY endTime',
     {replacements: { id: id }, type: req.sequelize.QueryTypes.SELECT})
     .then(result=>{
-        console.log('result：'+JSON.stringify(result));
+        if(result != null)
+        {
+            console.log("查到的优惠券是:" +JSON.stringify(result));
+            res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+        }
+        else
+        {
+            res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+        }
     })
 })
 
