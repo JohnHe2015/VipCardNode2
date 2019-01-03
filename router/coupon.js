@@ -121,7 +121,7 @@ router.get('/getById/:id',(req,res,next)=>{
                 form: {data : JSON.stringify(data)}
             }, function(error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    res.end(JSON.stringify({errcode : "0", errmsg : "传递成功"}))
+                    res.send(JSON.stringify({errcode : "0", errmsg : "传递成功"}))
                 }
             }); 
             
