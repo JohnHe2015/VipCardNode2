@@ -115,20 +115,11 @@ router.get('/getById/:id',(req,res,next)=>{
         if(data != null)
         {
             console.log("查到的优惠券是:" +JSON.stringify(data));
-
-            request.post({
-                url: 'http://m.zhengshuqian.com/coupon',
-                form: {data : JSON.stringify(data)}
-            }, function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    res.send(JSON.stringify({errcode : "0", errmsg : "传递成功"}))
-                }
-            }); 
-            
+            res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", data : JSON.stringify(data) }))   
         }
         else
         {
-            res.end(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+            res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
         }
     });
 })
