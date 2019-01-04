@@ -271,8 +271,8 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                     let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
                     //扫描二维码核销优惠券
                     console.log('二维码参数为 : '+ eventKey);
-                    res.redirect(eventKey);    //跳转到参数
-                    //res.send('success');
+                    //res.redirect(eventKey);    //跳转到参数
+                    res.send('success');
                 }
             }
             else
