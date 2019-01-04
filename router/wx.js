@@ -239,6 +239,12 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 }
                 else
                 {
+                    console.log(result);
+                    console.log(result.xml);
+                    console.log(JSON.stringify(result));
+                    console.log(JSON.parse(result));
+                    console.log(JSON.stringify(result.xml));
+                    console.log(JSON.parse(result.xml));
                     jsonData = result.xml;
                 }
             })
