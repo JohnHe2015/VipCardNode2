@@ -214,7 +214,6 @@ router.get('/generateQR',(req,res,next)=>{
 
 
 router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post的xml数据
-    console.log('come in通用事件触发接口');
     console.log(req.query);
     let {signature, echostr, openid, timestamp, nonce} = req.query;
     let arr = new Array();
@@ -232,9 +231,52 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
         console.log('验证通过')
         req.on('data',(data)=>{
             console.log(data.toString());
+            let data;
             parseString(data.toString(),(err,result)=>{     //解析xml
-                console.dir(result);
+                if(err){
+                    console.log('解析xml数据失败');
+                    res.send(JSON.stringify({errcode : '400', errmsg : "parse xml failed"}))
+                }
+                else
+                {
+                    data = result.xml;
+                }
             })
+
+            //public attributes
+            let msgType = data.MsgType;
+            let openid = data.FromUserName;
+            let createTime = data.CreateTime;
+            //private attributes
+            let content;
+            let event = data.Event || "";
+            if(msgType == "text")  //微信消息事件
+            {
+                content = data.Content;    //message content
+                if(content == "520" || content == "哈尼")
+                {
+                    api.sendText(openid, '宝贝，你竟然猜中了密码', (err,result)=>{
+                        if(err) console.log(err);
+                        else
+                        {
+                            res.send('success');
+                        }
+                    });
+                }
+            }
+            else if(msgType == "event" && event == "SCAN")  //客户扫描二维码事件
+            {
+                let eventKey = data.EventKey;      //eventKey就是二维码参数scen_id
+                //扫描二维码核销优惠券
+                console.log('二维码参数为 : '+ eventKey);
+                res.send('success');
+
+            }
+            else
+            {
+                res.send('no other');
+            }
+
 
 
         })
