@@ -212,7 +212,7 @@ router.get('/generateQR',(req,res,next)=>{
 });
 
 
-router.get('/eventTrigger',(req,res,next)=>{
+router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收post的xml数据
     console.log('come in通用事件触发接口');
     console.log(req.query);
     let {signature, echostr, timestamp, nonce} = req.query;
