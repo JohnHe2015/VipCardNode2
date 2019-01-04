@@ -9,6 +9,10 @@ module.exports = {
     {
         return crypto.createHash("md5").update(str).digest('hex');
     },
+    sha1 : function(str)
+    {
+        return crypto.createHash("sha1").update(str).digest('hex');
+    },
     getTime : function()
     {
         return new Date().getTime();

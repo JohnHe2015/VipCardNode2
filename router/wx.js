@@ -5,6 +5,7 @@ const request = require('request');
 const WechatApi = require('wechat-api');
 const wxConfig = require('./../config/wx.config')
 const api = new WechatApi(wxConfig.wx.appID,wxConfig.wx.appsecret);
+const utils = require('./../common/common');
 
 //一键同步pull微信数据到本地库(包括用户信息表,分组参数表)
 router.get('/sync',(req,res,next)=>{
@@ -212,10 +213,32 @@ router.get('/generateQR',(req,res,next)=>{
 
 
 router.get('/eventTrigger',(req,res,next)=>{
-    console.log('通用事件触发接口');
+    console.log('come in通用事件触发接口');
     console.log(req.query);
     let {signature, echostr, timestamp, nonce} = req.query;
-    res.send(echostr);
+    let arr = new Array();
+    arr[0] = nonce;
+    arr[1] = timestamp;
+    arr[2] = wxConfig.wx.token;
+
+    arr.sort();
+    let original = arr[0] + arr[1] + arr[2];
+    let cryptoStr = utils.sha1(original);              
+
+    if(cryptoStr == signature)                        //验证微信签名是否和加密字符串相等
+    {
+        console.log('验证通过')
+        req.on('data',(data)=>{
+            console.log('触发通用事件')
+
+
+        })
+    }
+    else   //认证失败，直接返回错误
+    {
+        res.send("请求非法");
+    }
+   
 })
 
 
