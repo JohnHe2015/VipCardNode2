@@ -212,10 +212,10 @@ router.get('/generateQR',(req,res,next)=>{
 });
 
 
-router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收post的xml数据
+router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post的xml数据
     console.log('come in通用事件触发接口');
     console.log(req.query);
-    let {signature, echostr, timestamp, nonce} = req.query;
+    let {signature, echostr, openod, timestamp, nonce} = req.query;
     let arr = new Array();
     arr[0] = nonce;
     arr[1] = timestamp;
@@ -224,7 +224,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收post的xml
     arr.sort();
     let original = arr[0] + arr[1] + arr[2];
     let cryptoStr = utils.sha1(original);              
-
+    console.log("加密后的字符串为:"+cryptoStr)
     if(cryptoStr == signature)                        //验证微信签名是否和加密字符串相等
     {
         console.log('验证通过')
