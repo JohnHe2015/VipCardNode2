@@ -744,6 +744,11 @@ safe-buffer@5.1.2, safe-buffer@^5.0.1, safe-buffer@^5.1.2:
   resolved "http://registry.npm.taobao.org/safer-buffer/download/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=
 
+sax@>=0.6.0:
+  version "1.2.4"
+  resolved "http://registry.npm.taobao.org/sax/download/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+  integrity sha1-KBYjTiN4vdxOU1T6tcqold9xANk=
+
 semver@^5.0.1, semver@^5.5.0:
   version "5.6.0"
   resolved "http://registry.npm.taobao.org/semver/download/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
@@ -982,6 +987,19 @@ wkx@^0.4.1:
   integrity sha1-Ioq1kuZFc4Lqb7efyCUFjQf85SM=
   dependencies:
     "@types/node" "*"
+
+xml2js@^0.4.19:
+  version "0.4.19"
+  resolved "http://registry.npm.taobao.org/xml2js/download/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
+  integrity sha1-aGwg8hMgnpSr8NG88e+qKRx4J6c=
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~9.0.1"
+
+xmlbuilder@~9.0.1:
+  version "9.0.7"
+  resolved "http://registry.npm.taobao.org/xmlbuilder/download/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+  integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
 
 yallist@^2.1.2:
   version "2.1.2"
