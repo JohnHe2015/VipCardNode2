@@ -211,4 +211,10 @@ router.get('/generateQR',(req,res,next)=>{
 });
 
 
+router.get('/eventTrigger',(req,res,next)=>{
+    console.log('通用事件触发接口');
+    res.sendStatus(200);
+})
+
+
 module.exports = router;
