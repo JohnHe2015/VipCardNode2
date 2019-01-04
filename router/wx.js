@@ -197,7 +197,7 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 
 })
 
-router.get('/generateQR',(req,res,next)=>{
+router.post('/generateQR',(req,res,next)=>{
     console.log('进入生成QR方法');
     let {id,count,type,startTime,endTime} = req.body;
     let data = id+type+startTime+endTime+count;
