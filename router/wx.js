@@ -230,6 +230,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
     {
         console.log('验证通过')
         req.on('data',(data)=>{
+            console.log(data);
             console.log('触发通用事件')
 
 
