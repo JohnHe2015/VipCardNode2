@@ -223,6 +223,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
 
     arr.sort();
     let original = arr[0] + arr[1] + arr[2];
+    console.log('original:'+ original);
     let cryptoStr = utils.sha1(original);              
     console.log("加密后的字符串为:"+cryptoStr)
     if(cryptoStr == signature)                        //验证微信签名是否和加密字符串相等
