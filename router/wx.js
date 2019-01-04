@@ -213,10 +213,9 @@ router.get('/generateQR',(req,res,next)=>{
 
 router.get('/eventTrigger',(req,res,next)=>{
     console.log('通用事件触发接口');
-    console.log(req.params);
     console.log(req.query);
-    console.log(req.body);
-    res.sendStatus(200);
+    let {signature, echostr, timestamp, nonce} = req.query;
+    res.send(echostr);
 })
 
 
