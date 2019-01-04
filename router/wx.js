@@ -265,6 +265,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                         }
                     });
                 }
+                res.send('success');
             }
             else if(msgType == "event" && event == "SCAN")  //客户扫描二维码事件
             {
