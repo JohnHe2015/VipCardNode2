@@ -259,10 +259,6 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 {
                     api.sendText(openid, '宝贝，你竟然猜中了密码', (err,result)=>{
                         if(err) console.log(err);
-                        else
-                        {
-                            res.send('success');
-                        }
                     });
                 }
                 res.send('success');
