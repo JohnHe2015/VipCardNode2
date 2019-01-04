@@ -231,7 +231,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
         console.log('验证通过')
         req.on('data',(data)=>{
             console.log(data.toString());
-            let data;
+            let jsonData;
             parseString(data.toString(),(err,result)=>{     //解析xml
                 if(err){
                     console.log('解析xml数据失败');
@@ -239,20 +239,20 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 }
                 else
                 {
-                    data = result.xml;
+                    jsonData = result.xml;
                 }
             })
 
             //public attributes
-            let msgType = data.MsgType;
-            let openid = data.FromUserName;
-            let createTime = data.CreateTime;
+            let msgType = jsonData.MsgType;
+            let openid = jsonData.FromUserName;
+            let createTime = jsonData.CreateTime;
             //private attributes
             let content;
-            let event = data.Event || "";
+            let event = jsonData.Event || "";
             if(msgType == "text")  //微信消息事件
             {
-                content = data.Content;    //message content
+                content = jsonData.Content;    //message content
                 if(content == "520" || content == "哈尼")
                 {
                     api.sendText(openid, '宝贝，你竟然猜中了密码', (err,result)=>{
@@ -266,7 +266,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
             }
             else if(msgType == "event" && event == "SCAN")  //客户扫描二维码事件
             {
-                let eventKey = data.EventKey;      //eventKey就是二维码参数scen_id
+                let eventKey = jsonData.EventKey;      //eventKey就是二维码参数scen_id
                 //扫描二维码核销优惠券
                 console.log('二维码参数为 : '+ eventKey);
                 res.send('success');
