@@ -239,26 +239,22 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 }
                 else
                 {
-                    console.log(result);
                     console.log(result.xml);
-                    console.log(JSON.stringify(result));
-                    console.log(JSON.parse(result));
-                    console.log(JSON.stringify(result.xml));
-                    console.log(JSON.parse(result.xml));
                     jsonData = result.xml;
                 }
             })
 
             //public attributes
-            let msgType = jsonData.MsgType;
-            let openid = jsonData.FromUserName;
-            let createTime = jsonData.CreateTime;
+            let msgType = jsonData.MsgType[0];
+            let openid = jsonData.FromUserName[0];
+            let createTime = jsonData.CreateTime[0];
             //private attributes
             let content;
-            let event = jsonData.Event || "";
+            let event = jsonData.Event[0] || "";
             if(msgType == "text")  //微信消息事件
             {
-                content = jsonData.Content;    //message content
+                console.log('wx msg push event')
+                content = jsonData.Content[0];    //message content
                 if(content == "520" || content == "哈尼")
                 {
                     api.sendText(openid, '宝贝，你竟然猜中了密码', (err,result)=>{
@@ -272,7 +268,8 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
             }
             else if(msgType == "event" && event == "SCAN")  //客户扫描二维码事件
             {
-                let eventKey = jsonData.EventKey;      //eventKey就是二维码参数scen_id
+                console.log('wx scanQR push event')
+                let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
                 //扫描二维码核销优惠券
                 console.log('二维码参数为 : '+ eventKey);
                 res.send('success');
