@@ -198,7 +198,8 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 })
 
 router.get('/generateQR',(req,res,next)=>{
-    let data = "www.baidu.com";
+    let {id,count,type,startTime,endTime} = req.body;
+    let data = id+type+startTime+endTime+count;
     api.createTmpQRCode(data, 1800, (err,result)=>{
         if(err){
             console.log(err);
