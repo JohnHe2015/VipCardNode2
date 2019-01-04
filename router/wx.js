@@ -250,7 +250,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
             let createTime = jsonData.CreateTime[0];
             //private attributes
             let content;
-            let event; 
+            
             if(msgType == "text")  //微信消息事件
             {
                 console.log('wx msg push event')
@@ -263,15 +263,16 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 }
                 res.send('success');
             }
-            else if(msgType == "event" && event == "SCAN")  //客户扫描二维码事件
+            else if(msgType == "event" )  
             {
-                console.log('wx scanQR push event')
-                event == jsonData.Event[0];
-                let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
-                //扫描二维码核销优惠券
-                console.log('二维码参数为 : '+ eventKey);
-                res.send('success');
-
+                let event = jsonData.Event[0];
+                if(event == "SCAN"){             //客户扫描二维码事件
+                    console.log('wx scanQR push event')
+                    let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
+                    //扫描二维码核销优惠券
+                    console.log('二维码参数为 : '+ eventKey);
+                    res.send('success');
+                }
             }
             else
             {
