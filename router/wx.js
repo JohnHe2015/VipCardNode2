@@ -294,7 +294,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                     
                     //res.send('success');
                 }
-                res.redirect('http://m.zhengshuqian.com/coupon/result');
+                //res.redirect('http://m.zhengshuqian.com/coupon/result');
             }
             else
             {
