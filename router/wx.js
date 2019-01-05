@@ -200,7 +200,7 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 router.post('/generateQR',(req,res,next)=>{
     console.log('进入生成QR方法');
     let {id,count,type,startTime,endTime} = req.body;
-    let data = id+type+startTime+endTime+count;
+    let data = id+'_'+type+'_'+startTime+'_'+endTime+'_'+count;
     api.createTmpQRCode(data, 1800, (err,result)=>{
         if(err){
             console.log(err);
@@ -273,7 +273,23 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                     let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
                     //扫描二维码核销优惠券
                     console.log('二维码参数为 : '+ eventKey);
-                    //res.redirect(eventKey);    //跳转到参数
+                    let arr = eventKey.split('_');
+                    request.get(
+                        {   
+                            url:`/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
+                        },
+                        function(error, response, body){
+                            if(error){
+                                res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}))；
+                            }
+                            if(response.statusCode == 200){
+                                if(body.errcode == 0 )   //核销成功
+                                {
+                                    window.location.href = 'http://m.zhengshuqian.com/coupon/result';
+                                }
+                            }
+                    })                
+                    
                     res.send('success');
                 }
             }
