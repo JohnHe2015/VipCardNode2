@@ -282,8 +282,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                             if(error){
                                 res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
                             }
-                            console.log('response'+response);
-                            console.log('body'+body);
+                            let data = JSON.parse(body);
                             if(response.statusCode == 200){
                                 if(body.errcode == "0" )   //核销成功
                                 {
