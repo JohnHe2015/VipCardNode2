@@ -294,10 +294,12 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                     
                     //res.send('success');
                 }
+                res.redirect('http://m.zhengshuqian.com/coupon/result');
             }
             else
             {
-                res.send('no other');
+                res.redirect('http://m.zhengshuqian.com/coupon/result');
+                //res.send('no other');
             }
 
 
@@ -306,7 +308,8 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
     }
     else   //认证失败，直接返回错误
     {
-        res.send("请求非法");
+        res.redirect('http://m.zhengshuqian.com/coupon/result');
+        //res.send("请求非法");
     }
    
 })
