@@ -124,7 +124,7 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠�
     // });
 
     //select count(type),type,startTime,endTime from coupon_table where username='edwdwa' GROUP BY type,endTime order by endTime ;
-    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime ORDER BY endTime',
+    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime,rate ORDER BY endTime',
     {replacements: { id : id , isUse : 0}, type: req.sequelize.QueryTypes.SELECT})
     .then(result=>{
         if(result != null)
