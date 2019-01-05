@@ -143,7 +143,7 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠�
 router.get('/verification',(req,res,next)=>{    //核销优惠券
     let {id,type,startTime,endTime,count} = req.query;
     req.sequelize.query('UPDATE coupon_table SET isUse = :isUse where id = :id and type = :type and startTime = :startTime and endTime = :endTime LIMIT :count',
-    { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime},type : req.sequelize.QueryTypes.UPDATE})
+    { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         console.log(result);
         res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
