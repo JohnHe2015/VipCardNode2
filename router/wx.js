@@ -276,12 +276,14 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                     let arr = eventKey.split('_');
                     request.get(
                         {   
-                            url:`/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
+                            url:`http://api.zhengshuqian.com/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
                         },
                         function(error, response, body){
                             if(error){
                                 res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
                             }
+                            console.log(response);
+                            console.log(body);
                             if(response.statusCode == 200){
                                 if(body.errcode == 0 )   //核销成功
                                 {
