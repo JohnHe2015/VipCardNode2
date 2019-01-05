@@ -148,7 +148,7 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
     { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
-        res.redirect('http://m.zhengshuqian.com/coupon/success');
+        res.redirect('http://m.zhengshuqian.com/coupon/success');     //成功核销，回调渲染ejs
     })
 });
 
