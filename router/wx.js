@@ -287,12 +287,12 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                                 if(data.errcode == "0" )   //核销成功
                                 {
                                     console.log('errcode == 0');
-                                    res.redirect('http://m.zhengshuqian.com/coupon/result');
+                                    window.location.href = ('http://m.zhengshuqian.com/coupon/result');
                                 }
                             }
                     })                
                     
-                    res.send('success');
+                    //res.send('success');
                 }
             }
             else
