@@ -287,7 +287,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                                 if(data.errcode == "0" )   //核销成功
                                 {
                                     console.log('errcode == 0');
-                                    window.location.href = ('http://m.zhengshuqian.com/coupon/result');
+                                    this.location.href = ('http://m.zhengshuqian.com/coupon/result');
                                 }
                             }
                     })                
