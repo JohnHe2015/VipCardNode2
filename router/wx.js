@@ -287,6 +287,7 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                             if(response.statusCode == 200){
                                 if(body.errcode == 0 )   //核销成功
                                 {
+                                    console.log('errcode == 0');
                                     res.redirect('http://m.zhengshuqian.com/coupon/result');
                                 }
                             }
