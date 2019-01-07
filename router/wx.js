@@ -155,7 +155,7 @@ router.get('/sendText',(req,res,next)=>{       // 发送普通消息的接口
 
 router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
     let templateId = "f1xFDHktBFr3KxxrAjdU_V5D_V1jV-Do0_bQ6eQ7uM8";   //发送消息的模版ID
-    let url = "api.zhengshuqian.com/coupon.html";
+    let url = `http://m.zhengshuqian.com/coupon/${req.query.id}`;    //点击模板消息跳转的用户优惠券页面
     console.log(`type3Sum : ${req.query.type3Sum}`);
     let data = {
         "level":{
