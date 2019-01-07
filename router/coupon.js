@@ -144,7 +144,7 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
     let {id,type,startTime,endTime,count} = req.query;
     type = parseInt(type);
     count = parseInt(count);
-    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse where id = :id and type = :type and startTime = :startTime and endTime = :endTime LIMIT :count',
+    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
     { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
