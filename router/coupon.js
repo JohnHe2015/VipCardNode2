@@ -144,8 +144,9 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
     let {id,type,startTime,endTime,count} = req.query;
     type = parseInt(type);
     count = parseInt(count);
-    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
-    { replacements: {isUse : 1, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
+    let useTime = new Date.getTime();
+    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse , useTime = :useTime where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
+    { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
         res.redirect('http://m.zhengshuqian.com/coupon/success');     //成功核销，回调渲染ejs
