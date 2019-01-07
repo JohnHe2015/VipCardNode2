@@ -144,7 +144,7 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
     let {id,type,startTime,endTime,count} = req.query;
     type = parseInt(type);
     count = parseInt(count);
-    let useTime = new Date.getTime();
+    let useTime = new Date().getTime();
     req.sequelize.query('UPDATE coupon_table SET isUse = :isUse , useTime = :useTime where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
     { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
