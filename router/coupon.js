@@ -111,18 +111,6 @@ router.get('/get',(req,res,next)=>{
 
 router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
     let id = req.params.id;
-    // req.Coupon_Model.findAll({ where: {id: id},raw:true}).then(data =>{
-    //     if(data != null)
-    //     {
-    //         console.log("查到的优惠券是:" +JSON.stringify(data));
-    //         res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", data : JSON.stringify(data) }))   
-    //     }
-    //     else
-    //     {
-    //         res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
-    //     }
-    // });
-
     //select count(type),type,startTime,endTime from coupon_table where username='edwdwa' GROUP BY type,endTime order by endTime ;
     req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime,rate ORDER BY endTime',
     {replacements: { id : id , isUse : 0}, type: req.sequelize.QueryTypes.SELECT})
@@ -152,6 +140,24 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
         res.redirect('http://m.zhengshuqian.com/coupon/success');     //成功核销，回调渲染ejs
     })
 });
+
+ 
+router.get('/history/:id',(req,res,next)=>{        //查询已使用优惠券接口
+    let id = req.params.id;
+    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, useTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime,rate ORDER BY endTime',
+    {replacements: { id : id , isUse : 1}, type: req.sequelize.QueryTypes.SELECT})
+    .then(result=>{
+        if(result != null)
+        {
+            console.log("查到已使用的优惠券是:" +JSON.stringify(result));
+            res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+        }
+        else
+        {
+            res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+        }
+    })
+})
 
 
 
