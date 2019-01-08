@@ -109,7 +109,7 @@ router.get('/get',(req,res,next)=>{
     })
 })
 
-router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
+router.get('/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
     let id = req.params.id;
     //select count(type),type,startTime,endTime from coupon_table where username='edwdwa' GROUP BY type,endTime order by endTime ;
     req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, startTime, endTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,endTime,rate ORDER BY endTime',
@@ -118,11 +118,17 @@ router.get('/getById/:id',(req,res,next)=>{    //查询用户未使用的优惠�
         if(result != null)
         {
             console.log("查到的优惠券是:" +JSON.stringify(result));
-            res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+            //res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+            res.render('coupon.ejs',{
+                data : result 
+            });
         }
         else
         {
-            res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+            //res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+            res.render('coupon.ejs',{
+                data : {} 
+            });
         }
     })
 });
@@ -142,7 +148,7 @@ router.get('/verification',(req,res,next)=>{    //核销优惠券
 });
 
  
-router.get('/history/:id',(req,res,next)=>{        //查询已使用优惠券接口
+router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
     let id = req.params.id;
     req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, useTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,useTime,rate ORDER BY useTime',
     {replacements: { id : id , isUse : 1}, type: req.sequelize.QueryTypes.SELECT})
@@ -150,11 +156,17 @@ router.get('/history/:id',(req,res,next)=>{        //查询已使用优惠券接
         if(result != null)
         {
             console.log("查到已使用的优惠券是:" +JSON.stringify(result));
-            res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+            //res.send(JSON.stringify({errcode : "0", errmsg : "传递成功", result : JSON.stringify(result) }))
+            res.render('history.ejs',{
+                data : result 
+            });
         }
         else
         {
-            res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+            //res.send(JSON.stringify({errcode : "1", errmsg : "没有优惠券！"}))
+            res.render('history.ejs',{
+                data : {} 
+            });
         }
     })
 })
@@ -182,24 +194,6 @@ router.get('/success',(req,res,next)=>{
     });
 })
 
-
-router.get('/:id',(req,res,next)=>{   //接收api传过来的coupon数据
-    let id = req.params.id;
-    request.get(
-        {   
-            url:`http://api.zhengshuqian.com/coupon/getById/${id}`,
-        },
-        function(error, response, body){
-            let data;
-            if(!error && response.statusCode == 200)
-            {
-                data = JSON.parse(body);
-                res.render('coupon.ejs',{
-                    data : JSON.parse(data.result)   
-                });
-            }
-        })
-});
 
 router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
     let {id,count,endTime,startTime,type,rate} = req.params;
@@ -243,28 +237,5 @@ router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=
         }   
     });
 });
-
-router.get('/history2/:id',(req,res,next)=>{    //优惠券兑换历史
-    let id = req.params.id;
-    request.get(
-        {   
-            url:`http://api.zhengshuqian.com/coupon/history/${id}`,
-        },
-        function(error, response, body){
-            let data;
-            if(!error && response.statusCode == 200)
-            {
-                data = JSON.parse(body);
-                res.render('history.ejs',{
-                    data : JSON.parse(data.result)   
-                });
-            }
-        })
-})
-
-
-
-
-
 
 module.exports = router;
