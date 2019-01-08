@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const common = require('./../common/common');
-const request = require('request');
+const QRCode = require('qrcode');
 
 router.post('/post',(req,res,next)=>{
     let insertBatch = [];
@@ -195,8 +195,8 @@ router.get('/success',(req,res,next)=>{
 })
 
 
-router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
-    let {id,count,endTime,startTime,type,rate} = req.params;
+router.get('/detail',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
+    let {id,count,endTime,startTime,type,rate} = req.query;
     var arr = [];
     let count_temp = parseInt(count);
     for(let i = 1;i <= count_temp ; i++)    //detail界面下拉框数组
@@ -221,8 +221,8 @@ router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=
     {
         cusType = (rate*10)+"折摄影券";
     }
-    _startTime = utils.getDate2(parseInt(startTime));
-    _endTime = utils.getDate2(parseInt(endTime));
+    _startTime = common.getDate2(parseInt(startTime));
+    _endTime = common.getDate2(parseInt(endTime));
     res.render('couponDetail.ejs',{
         data : {
             id : id,
