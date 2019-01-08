@@ -175,6 +175,7 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
     console.log('come in coupon/generateQR');
     let {id,type,count,startTime,endTime,cusType} = req.params;
     let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
+    console.log(`url : ${url}`)
     QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
         if(err) console.log(err)
         res.render('scan.ejs',{
