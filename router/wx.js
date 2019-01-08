@@ -274,27 +274,27 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                         
                     })
 
-                    let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
-                    //扫描二维码核销优惠券
-                    console.log('二维码参数为 : '+ eventKey);
-                    let arr = eventKey.split('_');
-                    request.get(
-                        {   
-                            url:`http://api.zhengshuqian.com/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
-                        },
-                        function(error, response, body){
-                            if(error){
-                                res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
-                            }
-                            let data = JSON.parse(body);
-                            if(response.statusCode == 200){
-                                if(data.errcode == "0" )   //核销成功
-                                {
-                                    console.log('errcode == 0');
-                                    res.redirect('http://m.zhengshuqian.com/coupon/result');
-                                }
-                            }
-                    })                
+                    // let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
+                    // //扫描二维码核销优惠券
+                    // console.log('二维码参数为 : '+ eventKey);
+                    // let arr = eventKey.split('_');
+                    // request.get(
+                    //     {   
+                    //         url:`http://api.zhengshuqian.com/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
+                    //     },
+                    //     function(error, response, body){
+                    //         if(error){
+                    //             res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
+                    //         }
+                    //         let data = JSON.parse(body);
+                    //         if(response.statusCode == 200){
+                    //             if(data.errcode == "0" )   //核销成功
+                    //             {
+                    //                 console.log('errcode == 0');
+                    //                 res.redirect('http://m.zhengshuqian.com/coupon/result');
+                    //             }
+                    //         }
+                    // })                
                     
                     //res.send('success');
                 }
