@@ -90,7 +90,7 @@
         $("#count").text(count+'张');
 
         //设置确认按键的href,调用接口
-        let url = '/wx/generateQR/'+count+'/<%= data.id%>/<%= data.type%>/<%= data.startTime%>/<%= data.endTime%>';
+        let url = '/wx/generateQR/'+count+'/<%= data.id%>/<%= data.type%>/<%= data.cusType %>/<%= data.startTime%>/<%= data.endTime%>';
         
         //let url = '/coupon/generateQR/'+count+'/<%= data.id%>/<%= data.type%>/<%= data.cusType %>/<%= data.startTime%>/<%= data.endTime%>';
         $('#confirm2').attr('href',url);
