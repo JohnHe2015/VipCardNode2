@@ -101,7 +101,7 @@ router.get('/register',(req,res,next)=>{
     console.log(JSON.stringify(req.query));
     let id = req.query.openid;
     request.get({
-        url : `/login/isLogin?id=${id}`
+        url : `http://api.zhengshuqian.com/login/isLogin?id=${id}`
     },function(error, response, body){
         if(response.statusCode == 200){
             let data = JSON.parse(body);
