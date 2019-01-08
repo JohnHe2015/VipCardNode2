@@ -188,7 +188,7 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 
 })
 
-router.get('/generateQR',(req,res,next)=>{              //微信接口的生成二维码
+router.get('/generateQR/:count/:id/:type/:startTime/:endTime',(req,res,next)=>{              //微信接口的生成二维码
     console.log('进入生成QR方法');
     let {id,count,type,startTime,endTime} = req.params;
     let data = id+'_'+type+'_'+startTime+'_'+endTime+'_'+count;
