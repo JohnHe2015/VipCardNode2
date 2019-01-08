@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const common = require('./../common/common');
+const request = require('request');
 
 router.get('/get',(req,res,next)=>{
     let {username,mobile,birthday,sex,level,page,pageSize} = req.query;
