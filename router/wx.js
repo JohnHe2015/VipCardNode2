@@ -188,7 +188,7 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 
 })
 
-router.post('/generateQR',(req,res,next)=>{
+router.post('/generateQR',(req,res,next)=>{              //微信接口的生成二维码
     console.log('进入生成QR方法');
     let {id,count,type,startTime,endTime} = req.body;
     let data = id+'_'+type+'_'+startTime+'_'+endTime+'_'+count;
@@ -206,7 +206,7 @@ router.post('/generateQR',(req,res,next)=>{
 });
 
 
-router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post的xml数据
+router.all('/eventTrigger2',(req,res,next)=>{   //既接收get也接收事件post的xml数据
     console.log(req.query);
     let {signature, echostr, openid, timestamp, nonce} = req.query;
     let arr = new Array();
