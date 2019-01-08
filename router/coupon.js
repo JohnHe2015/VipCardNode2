@@ -191,7 +191,7 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
 })
 
 
-router.get('/success',(req,res,next)=>{ 
+router.get('/success/:id',(req,res,next)=>{ 
     console.log('come in coupon/success');
     res.render('result.ejs',{
     });
