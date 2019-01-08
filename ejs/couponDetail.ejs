@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>优惠券</title>
+    <link rel="stylesheet" href="/weui.min.css">
+    <link rel="stylesheet" href="/jquery-weui.min.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/jquery-weui.min.js"></script>
+    <script src="/swiper.min.js"></script>
+    <script src="/weui.min.js"></script>
+    <style>
+         body{
+            height: 100vh;
+            background: #141414;
+        }
+        .top{
+            height: 100%;
+            width: 100%;
+        }
+        .wrapper{
+            
+        }
+        .content{
+            margin: 30px;
+        }
+        .content-text{
+            color: #a79175;
+            line-height: 30px;
+            margin-bottom: 30px;
+
+        }
+        #showPicker{
+            background: #141414;
+            color: #a79175;
+            border: 1px solid #595757;
+        }
+        .weui-flex{
+            position: relative;
+        }
+        .centerDiv{
+            margin: -10% 0 0 -26%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #a79175;
+            text-align: center;
+            /* letter-spacing : 1px; */
+        }
+        .centerDiv .span1{
+            font-size: 23px;
+            font-weight : 900;
+        }
+        .centerDiv .span2{
+            font-size : 18px;
+            margin-top: 5px;
+            font-weight: 900;
+        }
+    </style>
+    <script>
+    $(function() {  
+       
+    $('#showPicker').on('click', function () {
+        weui.picker(JSON.parse('<%- JSON.stringify(data.arr) %>'), {
+            onChange: function (result) {
+                //console.log(result);
+            },
+            onConfirm: function (result) {
+                console.log(result[0]);
+                $('#showPicker').text(result[0]);
+            }
+        });
+    });
+
+    $("#confirm").on('click', function(){
+        let count = $('#showPicker').text();
+        count = parseInt(count);
+        if(isNaN(count)){
+            $.alert({
+                title: '抱歉',
+                text: '请先选择数量',
+                onOK: function () {
+                    //点击确认
+                }
+            });
+            return;
+        }
+        $("#count").text(count+'张');
+
+        //设置确认按键的href,调用接口
+        let url = '/coupon/generateQR?count='+count+'&id=<%= data.id%>&type=<%= data.type%>&cusType=<%= data.cusType %>&startTime=<%= data.startTime%>&endTime=<%= data.endTime%>';
+        $('#confirm2').attr('href',url);
+
+        //
+        $(".weui-mask").css({ opacity: 1 });
+        $(".weui-mask").css("visibility","visible");
+        $(".weui-dialog").css({ opacity: 1 });
+        $(".weui-dialog").css("visibility","visible");
+
+        
+        
+    });
+
+    $("#cancel").on('click', function(){
+        $(".weui-mask").css({ opacity: 0 });
+        $(".weui-mask").css("visibility","hidden");
+        $(".weui-dialog").css({ opacity: 0 });
+        $(".weui-dialog").css("visibility","hidden");
+    });
+
+   
+    });  
+    </script>
+</head>
+<body>
+        <div class="wrapper">
+            <div class="weui-flex">
+                <img class="top" src="/public/5.png" alt="">
+                <div class="centerDiv">
+                    <p class="span1"><%= data.cusType %></p>
+                    <p class="span2"><%= data._startTime%>-<%= data._endTime%></p>
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-text">
+                    革同MUSEE FOTO是家大危机打击啊我但嗲温暖的娃款绝对不能忘记拿大奖啊我你打我都把你忘不掉我爸爸的丢把握大王大王带娃带你看完打完底袜带你玩你的碗都能挖到你
+                </div>
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker">选择咖啡券数量</a>
+
+                <div style="margin-top: 30px">
+                    <a id="confirm" href="javascript:void(0);" class="weui-btn weui-btn_primary">确认</a>
+                </div>
+            </div>
+
+            <!-- dialog begin -->
+            
+        </div>
+        <div class="js_dialog" id="iosDialog1" >
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__hd"><strong class="weui-dialog__title">请确认使用:</strong></div>
+                    <div class="weui-dialog__bd">
+                        <% let _type; %>
+                            <% if(data.type == 1){ %>
+                                <% _type = '咖啡券';} %>
+                            <% if(data.type == 2){ %>
+                                <% _type = '拍摄券';} %>
+                            <% if(data.type == 3){ %>
+                                <% _type = '摄影券';} %>    
+                        <p>
+                            <%= _type %>
+                        </p>
+                        <p id="count">
+                        </p>
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a id="confirm2" href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">确认</a>
+                        <a id="cancel" href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                    </div>
+                </div>
+        </div>
+</body>
+</html>

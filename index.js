@@ -48,10 +48,16 @@ app.all('*',(req,res,next)=>{
 });
 
 
-app.use(express.static('./public'));
+app.use(express.static('./'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.locals.utils = require('./common/common');   //定义全局函数，方便ejs中调用
+
+//ejs
+app.set('view engine','ejs');
+app.set('views',__dirname + '/ejs');
 
 app.use('/user',userRouter);
 app.use('/coupon',couponRouter);

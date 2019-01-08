@@ -93,4 +93,42 @@ router.post('/deltemp',(req,res,next)=>{
         res.end(JSON.stringify({errcode : "400", errmsg : err}));
     })
 });
+
+
+router.get('/register',(req,res,next)=>{
+    console.log('come in register');
+    console.log(JSON.stringify(req.query));
+    let id = req.query.openid;
+    request.get({
+        url : `/login/isLogin?id=${id}`
+    },function(error, response, body){
+        if(response.statusCode == 200){
+            let data = JSON.parse(body);
+            if(data.errcode == 1)
+            {
+                //已经注册的用户，那么先获取用户的用户名等信息
+                console.log('execute user.ejs')
+                res.render('user.ejs',{
+                    id : id,
+                    username : data.username          //获取接口传递过来的username(数据库的username)
+                    //输送用户信息到user.ejs
+                })
+                //res.end();   //存在用户直接跳转到用户界面
+            }
+            else
+            {
+                res.render('register.ejs',{      //获取的微信用户数据传递给register
+                    data : 
+                    {
+                        username : req.query.username,
+                        openid : req.query.openid,
+                        sex : req.query.sex,
+                        groupid : req.query.groupid
+                    }
+                })
+            }
+        }
+    })
+    
+})
 module.exports = router;
