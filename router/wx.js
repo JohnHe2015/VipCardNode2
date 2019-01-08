@@ -188,9 +188,9 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 
 })
 
-router.post('/generateQR',(req,res,next)=>{              //微信接口的生成二维码
+router.get('/generateQR',(req,res,next)=>{              //微信接口的生成二维码
     console.log('进入生成QR方法');
-    let {id,count,type,startTime,endTime} = req.body;
+    let {id,count,type,startTime,endTime} = req.params;
     let data = id+'_'+type+'_'+startTime+'_'+endTime+'_'+count;
     api.createTmpQRCode(data, 1800, (err,result)=>{
         if(err){
@@ -200,7 +200,15 @@ router.post('/generateQR',(req,res,next)=>{              //微信接口的生成
         {
             let imgSrc = api.showQRCodeURL(result.ticket);
             console.log(imgSrc);
-            res.send(JSON.stringify({errcode : "0", errmsg : "生成成功", result : imgSrc}));
+            //res.send(JSON.stringify({errcode : "0", errmsg : "生成成功", result : imgSrc}));
+            res.render('scan.ejs',{
+                data : 
+                {
+                    src : imgSrc,
+                    type : cusType,
+                    count : count
+                }
+            })
         }
     });
 });
@@ -261,6 +269,11 @@ router.all('/eventTrigger2',(req,res,next)=>{   //既接收get也接收事件pos
                 let event = jsonData.Event[0];
                 if(event == "SCAN"){             //客户扫描二维码事件
                     console.log('wx scanQR push event')
+                    //
+                    res.render('result.ejs',{
+                        
+                    })
+
                     let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
                     //扫描二维码核销优惠券
                     console.log('二维码参数为 : '+ eventKey);
