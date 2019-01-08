@@ -134,8 +134,8 @@ router.get('/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
 });
 
 
-router.get('/verification',(req,res,next)=>{    //核销优惠券
-    let {id,type,startTime,endTime,count} = req.query;
+router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>{    //核销优惠券
+    let {id,type,startTime,endTime,count} = req.params;
     type = parseInt(type);
     count = parseInt(count);
     let useTime = new Date().getTime();
@@ -174,7 +174,7 @@ router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
 router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
     console.log('come in coupon/generateQR');
     let {id,type,count,startTime,endTime,cusType} = req.params;
-    let url = `http://api.zhengshuqian.com/coupon/verification?id=${id}&type=${type}&startTime=${startTime}&endTime=${endTime}&count=${count}`;
+    let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
     QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
         if(err) console.log(err)
         res.render('scan.ejs',{
