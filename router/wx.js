@@ -214,7 +214,7 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
 });
 
 
-router.all('/eventTrigger2',(req,res,next)=>{   //既接收get也接收事件post的xml数据
+router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post的xml数据
     console.log(req.query);
     let {signature, echostr, openid, timestamp, nonce} = req.query;
     let arr = new Array();
