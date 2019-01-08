@@ -195,8 +195,8 @@ router.get('/success',(req,res,next)=>{
 })
 
 
-router.get('/detail',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
-    let {id,count,endTime,startTime,type,rate} = req.query;
+router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
+    let {id,count,endTime,startTime,type,rate} = req.params;
     var arr = [];
     let count_temp = parseInt(count);
     for(let i = 1;i <= count_temp ; i++)    //detail界面下拉框数组
