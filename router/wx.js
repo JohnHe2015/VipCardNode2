@@ -85,15 +85,21 @@ router.get('/config/get',(req,res,next)=>{
 
 router.get('/auth',(req,res,next)=>{       //第三方菜单认证接口
     var router = 'wx/get_wx_access_token';
+    // 这是编码后的地址
+    //var return_uri = encodeURIComponent('http://m.zhengshuqian.com/index.html'+router);
     var return_uri = encodeURIComponent('http://api.zhengshuqian.com/'+router);
     var scope = 'snsapi_userinfo';
     res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxConfig.wx.appID}&redirect_uri=${return_uri}&response_type=code&scope=${scope}&state=STATE#wechat_redirect`);
+    //res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE#wechat_redirect');
+
 })
 
 
 
 router.get('/get_wx_access_token', function(req,res, next){
-    // 通过code换取网页授权access_token
+    //console.log("get_wx_access_token")
+    //console.log("code_return: "+req.query.code)
+    // 第二步：通过code换取网页授权access_token
     var code = req.query.code;
     request.get(
         {   
@@ -101,10 +107,13 @@ router.get('/get_wx_access_token', function(req,res, next){
         },
         function(error, response, body){
             if(response.statusCode == 200){
-                //拉取用户信息(需scope为 snsapi_userinfo)
+                
+                // 第三步：拉取用户信息(需scope为 snsapi_userinfo)
+                //console.log(JSON.parse(body));
                 var data = JSON.parse(body);
                 var access_token = data.access_token;
                 var openid = data.openid;
+                
                 request.get(
                     {
                         url:'https://api.weixin.qq.com/sns/userinfo?access_token='+access_token+'&openid='+openid+'&lang=zh_CN',
@@ -112,11 +121,11 @@ router.get('/get_wx_access_token', function(req,res, next){
                     function(error, response, body){
                         if(response.statusCode == 200){
                             
-                            // 根据获取的用户信息进行对应操作
+                            // 第四步：根据获取的用户信息进行对应操作
                             var userinfo = JSON.parse(body);
                             console.log('获取微信信息成功！');
                             console.log(JSON.stringify(userinfo));
-                            res.redirect(`/user/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
+                            res.redirect(`http://m.zhengshuqian.com/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
                             
                         }else{
                             console.log(response.statusCode);
@@ -146,7 +155,7 @@ router.get('/sendText',(req,res,next)=>{       // 发送普通消息的接口
 
 router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
     let templateId = "f1xFDHktBFr3KxxrAjdU_V5D_V1jV-Do0_bQ6eQ7uM8";   //发送消息的模版ID
-    let url = `http://api.zhengshuqian.com/coupon/${req.query.id}`;    //点击模板消息跳转的用户优惠券页面
+    let url = "api.zhengshuqian.com/coupon.html";
     console.log(`type3Sum : ${req.query.type3Sum}`);
     let data = {
         "level":{
@@ -188,9 +197,9 @@ router.get('/sendTemplate',(req,res,next)=>{   //发送模版消息接口
 
 })
 
-router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{              //微信接口的生成二维码
+router.post('/generateQR',(req,res,next)=>{
     console.log('进入生成QR方法');
-    let {id,count,type,startTime,endTime,cusType} = req.params;
+    let {id,count,type,startTime,endTime} = req.body;
     let data = id+'_'+type+'_'+startTime+'_'+endTime+'_'+count;
     api.createTmpQRCode(data, 1800, (err,result)=>{
         if(err){
@@ -200,21 +209,13 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
         {
             let imgSrc = api.showQRCodeURL(result.ticket);
             console.log(imgSrc);
-            //res.send(JSON.stringify({errcode : "0", errmsg : "生成成功", result : imgSrc}));
-            res.render('scan.ejs',{
-                data : 
-                {
-                    src : imgSrc,
-                    type : cusType,
-                    count : count
-                }
-            })
+            res.send(JSON.stringify({errcode : "0", errmsg : "生成成功", result : imgSrc}));
         }
     });
 });
 
 
-router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post的xml数据
+router.all('/eventTrigger2',(req,res,next)=>{   //既接收get也接收事件post的xml数据
     console.log(req.query);
     let {signature, echostr, openid, timestamp, nonce} = req.query;
     let arr = new Array();
@@ -269,32 +270,27 @@ router.all('/eventTrigger',(req,res,next)=>{   //既接收get也接收事件post
                 let event = jsonData.Event[0];
                 if(event == "SCAN"){             //客户扫描二维码事件
                     console.log('wx scanQR push event')
-                    //
-                    res.render('result.ejs',{
-                        
-                    })
-
-                    // let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
-                    // //扫描二维码核销优惠券
-                    // console.log('二维码参数为 : '+ eventKey);
-                    // let arr = eventKey.split('_');
-                    // request.get(
-                    //     {   
-                    //         url:`http://api.zhengshuqian.com/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
-                    //     },
-                    //     function(error, response, body){
-                    //         if(error){
-                    //             res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
-                    //         }
-                    //         let data = JSON.parse(body);
-                    //         if(response.statusCode == 200){
-                    //             if(data.errcode == "0" )   //核销成功
-                    //             {
-                    //                 console.log('errcode == 0');
-                    //                 res.redirect('http://m.zhengshuqian.com/coupon/result');
-                    //             }
-                    //         }
-                    // })                
+                    let eventKey = jsonData.EventKey[0];      //eventKey就是二维码参数scen_id
+                    //扫描二维码核销优惠券
+                    console.log('二维码参数为 : '+ eventKey);
+                    let arr = eventKey.split('_');
+                    request.get(
+                        {   
+                            url:`http://api.zhengshuqian.com/coupon/verification?id=${arr[0]}&type=${arr[1]}&startTime=${arr[2]}&endTime=${arr[3]}&count=${arr[4]}`,
+                        },
+                        function(error, response, body){
+                            if(error){
+                                res.send(JSON.stringify({errcode : "400", errmsg : "核销失败"}));
+                            }
+                            let data = JSON.parse(body);
+                            if(response.statusCode == 200){
+                                if(data.errcode == "0" )   //核销成功
+                                {
+                                    console.log('errcode == 0');
+                                    this.location.href = ('http://m.zhengshuqian.com/coupon/result');
+                                }
+                            }
+                    })                
                     
                     //res.send('success');
                 }
