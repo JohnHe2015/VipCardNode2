@@ -116,7 +116,7 @@ router.get('/get_wx_access_token', function(req,res, next){
                             var userinfo = JSON.parse(body);
                             console.log('获取微信信息成功！');
                             console.log(JSON.stringify(userinfo));
-                            res.redirect(`/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
+                            res.redirect(`/user/register?username=${userinfo.nickname}&openid=${openid}&sex=${userinfo.sex}&groupid=${userinfo.groupid}`);
                             
                         }else{
                             console.log(response.statusCode);
