@@ -171,7 +171,7 @@ router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
     })
 })
 
-router.get('/generateQR/*',(req,res,next)=>{
+router.get('/generate',(req,res,next)=>{
     console.log('come in coupon/generateQR');
     let {id,type,count,startTime,endTime,cusType} = req.query;
     let url = `http://api.zhengshuqian.com/coupon/verification?id=${id}&type=${type}&startTime=${startTime}&endTime=${endTime}&count=${count}`;
