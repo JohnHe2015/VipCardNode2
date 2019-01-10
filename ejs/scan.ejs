@@ -39,9 +39,8 @@
         //监控扫描二维码动作
         $(function () {
             let socket = io();
-            socket.on('postmsg', function(msg){
-                alert('message: ' + msg);
-                window.location.href = msg;
+            socket.on('postmsg', (data)=>{
+                window.location.href = data;          //跳转到后台发送过来的返回地址
             });
         });
     </script>

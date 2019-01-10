@@ -15,7 +15,7 @@ const io = require('socket.io')(http);
 //websocket logic  (listening scan QR Code action)
 let _socket;
 io.on('connection', (socket)=>{
-    console.log('a user connected');
+    console.log('one connected');
     if(socket)
     {
         _socket = socket;

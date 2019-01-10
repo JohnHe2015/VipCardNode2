@@ -134,23 +134,6 @@ router.get('/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
 });
 
 
-router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>{    //核销优惠券
-    let {id,type,startTime,endTime,count} = req.params;
-    type = parseInt(type);
-    count = parseInt(count);
-    let useTime = new Date().getTime();
-    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse , useTime = :useTime where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
-    { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
-    .then(result =>{
-        //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
-        // res.render('result.ejs',{
-
-        // });
-        req._socket.emit('postmsg','http://www.baidu.com');
-    })
-});
-
- 
 router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
     let id = req.params.id;
     req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, useTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,useTime,rate ORDER BY useTime',
@@ -173,24 +156,6 @@ router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
         }
     })
 })
-
-router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
-    let {id,type,count,startTime,endTime,cusType} = req.params;
-    let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
-    QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
-        if(err) console.log(err)
-        res.render('scan.ejs',{
-            data : 
-            {
-                src : baseurl,
-                type : cusType,
-                count : count
-            }
-        })
-    })
-    
-})
-
 
 // router.get('/success/:id',(req,res,next)=>{ 
 //     console.log('come in coupon/success');
@@ -242,5 +207,47 @@ router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=
         }   
     });
 });
+
+router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
+    let {id,type,count,startTime,endTime,cusType} = req.params;
+    let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
+    QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
+        if(err) console.log(err)
+        res.render('scan.ejs',{
+            data : 
+            {
+                src : baseurl,
+                type : cusType,
+                count : count
+            }
+        })
+    })
+    
+})
+
+
+router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>{    //核销优惠券
+    let {id,type,startTime,endTime,count} = req.params;
+    type = parseInt(type);
+    count = parseInt(count);
+    let useTime = new Date().getTime();
+    req.sequelize.query('UPDATE coupon_table SET isUse = :isUse , useTime = :useTime where id = :id and type = :type and isUse = 0 and startTime = :startTime and endTime = :endTime LIMIT :count',
+    { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
+    .then(result =>{
+        //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
+        let url = `/coupon/result/${type}/${count}`;
+        req._socket.emit('postmsg',url);                    //核销成功，发送websocket给前台
+    })
+});
+
+router.get('/result/:type/:count',(req,res,next)=>{
+    let {type,count} = req.params;
+    res.render('result.ejs',{
+        data : {
+            type : type,
+            count : count
+        }
+    })
+})
 
 module.exports = router;
