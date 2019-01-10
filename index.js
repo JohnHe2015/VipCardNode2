@@ -13,11 +13,7 @@ const io = require('socket.io')(http);
 //app.listen(8081);
 
 
-//websocket logic  (listening scan QR Code action)
-io.on('connection', (socket)=>{
-    console.log('a user connected');
-    console.log(socket);
-});
+
 
 
 //listen http
@@ -50,6 +46,7 @@ app.all('*',(req,res,next)=>{
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     if(!req.sequelize)
     {
+        req.io = io;
         req.sequelize = sequelize;     //挂载sequelize对象
         req.Op = sequelize.Op;
         req.User_Model = User;         //mount model objs
