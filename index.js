@@ -9,11 +9,21 @@ const wxRouter = require('./router/wx');
 const loginRouter = require('./router/login');
 const app = express();
 const http = require('http').Server(app);
-
+const io = require('socket.io')(http);
 //app.listen(8081);
+
+
+//websocket logic
+io.on('connection', (socket)=>{
+    console.log('a user connected');
+});
+
+
+//listen http
 http.listen(8081, function(){
     console.log('listening on *:8081');
 });
+
 
 const sequelize = new Sequelize(dbconfig.mysql.database, dbconfig.mysql.user, dbconfig.mysql.password, {
     host: dbconfig.mysql.host,
