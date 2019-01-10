@@ -175,13 +175,8 @@ router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
 
 router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
     let {id,type,count,startTime,endTime,cusType} = req.params;
-    //websocket logic  (listening scan QR Code action)
-    req.io.on('connection', (socket)=>{
-        console.log('a user connected');
-        console.log(socket);
-        // socket.on('scanAction',(data)=>{
-        //     //接收到扫描事件
-        // })
+    req._socket.on('get', function(msg){
+        console.log('message: ' + msg);
     });
     let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
     QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
