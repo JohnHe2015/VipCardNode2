@@ -39,6 +39,9 @@
         //监控扫描二维码动作
         $(function () {
             let socket = io();
+            $('#share').on('click', function () {
+                socket.emit('postmsg','fucking piece of shit!');
+            });
         });
     </script>
 </head>

@@ -143,9 +143,13 @@ router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>
     { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
-        res.render('result.ejs',{               //成功核销，回调渲染ejs
+        // res.render('result.ejs',{
 
-        });    
+        // });
+        req._socket.on('postmsg',(data)=>{
+            console.log(data);
+            console.log('haha success');
+        })    
     })
 });
 
@@ -175,9 +179,6 @@ router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
 
 router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
     let {id,type,count,startTime,endTime,cusType} = req.params;
-    req._socket.on('get', function(msg){
-        console.log('message: ' + msg);
-    });
     let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
     QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
         if(err) console.log(err)
