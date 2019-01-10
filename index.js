@@ -13,9 +13,10 @@ const io = require('socket.io')(http);
 //app.listen(8081);
 
 
-//websocket logic
+//websocket logic  (listening scan QR Code action)
 io.on('connection', (socket)=>{
     console.log('a user connected');
+    console.log(socket);
 });
 
 
@@ -24,7 +25,7 @@ http.listen(8081, function(){
     console.log('listening on *:8081');
 });
 
-
+//定义数据库连接
 const sequelize = new Sequelize(dbconfig.mysql.database, dbconfig.mysql.user, dbconfig.mysql.password, {
     host: dbconfig.mysql.host,
     dialect: 'mysql',
@@ -37,6 +38,7 @@ const sequelize = new Sequelize(dbconfig.mysql.database, dbconfig.mysql.user, db
     },
 });
 
+//载入model实体
 const User =  sequelize.import('./model/user_model.js');
 const Usertemp =  sequelize.import('./model/usertemp_model.js');
 const Coupon =  sequelize.import('./model/coupon_model.js');
@@ -67,12 +69,14 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.locals.utils = require('./common/common');   //定义全局函数，方便ejs中调用
+//定义全局函数，ejs中调用
+app.locals.utils = require('./common/common');   
 
-//ejs
+//定义ejs模板和路径
 app.set('view engine','ejs');
 app.set('views',__dirname + '/ejs');
 
+//载入路由
 app.use('/user',userRouter);
 app.use('/coupon',couponRouter);
 app.use('/wx',wxRouter);
