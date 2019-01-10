@@ -191,12 +191,12 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
 })
 
 
-router.get('/success/:id',(req,res,next)=>{ 
-    console.log('come in coupon/success');
-    res.render('result.ejs',{
-    });
-    console.log('end coupon/success');
-})
+// router.get('/success/:id',(req,res,next)=>{ 
+//     console.log('come in coupon/success');
+//     res.render('result.ejs',{
+//     });
+//     console.log('end coupon/success');
+// })
 
 
 router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=>{        //接收coupon.ejs的参数传递给detail页面
