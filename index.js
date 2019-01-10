@@ -7,9 +7,13 @@ const userRouter = require('./router/user');
 const couponRouter = require('./router/coupon');
 const wxRouter = require('./router/wx');
 const loginRouter = require('./router/login');
-
 const app = express();
-app.listen(8081);
+const http = require('http').Server(app);
+
+//app.listen(8081);
+http.listen(8081, function(){
+    console.log('listening on *:8081');
+});
 
 const sequelize = new Sequelize(dbconfig.mysql.database, dbconfig.mysql.user, dbconfig.mysql.password, {
     host: dbconfig.mysql.host,
