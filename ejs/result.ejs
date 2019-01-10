@@ -5,15 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>优惠券</title>
+    <link rel="stylesheet" href="/weui.min.css">
+    <style>
+        body{
+            background: #141414;
+            }
+        .top{
+            height: 80%;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .wrapper{
+            height: 100vh;
+            margin: 30px;
+            text-align: center;
+        }
+        .header{
+            margin-top: 10%;
+            margin-bottom: 5%;
+            font-size: 20px;
+            color: #a79175
+        }
+        .weui-flex{
+            margin-bottom: 15%;
+        }
+    </style>
 </head>
 <body>
-    核销成功
-    e2
-    3
-    2
-    32
-    4
-    2
+    <div class="wrapper">
+        <div class="header">
+            <p><%= data.type %></p>
+            <p>✖<%= data.count%></p>
+        </div>
+        <div class="weui-flex">
+            <img class="top" src="/public/result.svg" alt="">
+        </div>
+        <a href="javascript:void(0);" class="weui-btn weui-btn_primary" style="background: #a79175">返回</a>
+    </div>
     
 </body>
 </html>
