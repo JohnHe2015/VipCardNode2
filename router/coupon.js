@@ -210,7 +210,7 @@ router.get('/detail/:id/:type/:startTime/:endTime/:count/:rate/',(req,res,next)=
 
 router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,next)=>{
     let {id,type,count,startTime,endTime,cusType} = req.params;
-    let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}`;
+    let url = `http://api.zhengshuqian.com/coupon/verification/${id}/${type}/${startTime}/${endTime}/${count}/${cusType}`;
     QRCode.toDataURL(url, (err, baseurl)=> {     //获取生成的二维码base64后渲染scan.ejs
         if(err) console.log(err)
         res.render('scan.ejs',{
@@ -226,8 +226,8 @@ router.get('/generateQR/:count/:id/:type/:cusType/:startTime/:endTime',(req,res,
 })
 
 
-router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>{    //核销优惠券
-    let {id,type,startTime,endTime,count} = req.params;
+router.get('/verification/:id/:type/:startTime/:endTime/:count/:cusType',(req,res,next)=>{    //核销优惠券
+    let {id,type,startTime,endTime,count,cusType} = req.params;
     type = parseInt(type);
     count = parseInt(count);
     let useTime = new Date().getTime();
@@ -235,16 +235,16 @@ router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>
     { replacements: {isUse : 1, useTime : useTime, id : id, type : type, startTime : startTime, endTime : endTime, count : count},type : req.sequelize.QueryTypes.UPDATE})
     .then(result =>{
         //res.send(JSON.stringify({errcode : "0", errmsg : "核销成功！"}))
-        let url = `/coupon/result/${type}/${count}`;
+        let url = `/coupon/result/${cusType}/${count}`;
         req._socket.emit('postmsg',url);                    //核销成功，发送websocket给前台
     })
 });
 
-router.get('/result/:type/:count',(req,res,next)=>{
-    let {type,count} = req.params;
+router.get('/result/:cusType/:count',(req,res,next)=>{
+    let {cusType,count} = req.params;
     res.render('result.ejs',{
         data : {
-            type : type,
+            type : cusType,
             count : count
         }
     })
