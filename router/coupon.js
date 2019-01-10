@@ -146,10 +146,7 @@ router.get('/verification/:id/:type/:startTime/:endTime/:count',(req,res,next)=>
         // res.render('result.ejs',{
 
         // });
-        req._socket.on('postmsg',(data)=>{
-            console.log(data);
-            console.log('haha success');
-        })    
+        req._socket.emit('postmsg','http://www.baidu.com');
     })
 });
 
