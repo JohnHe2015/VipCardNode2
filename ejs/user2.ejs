@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MUSEE FOTO会员</title>
+    <link rel="stylesheet" href="/weui.min.css">
+    <link rel="stylesheet" href="/jquery-weui.min.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/jquery-weui.min.js"></script>
+    <script src="/swiper.min.js"></script>
+    <style>
+        body{
+            height: 100vh;
+            background: #141414;
+        }
+        .card{
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            margin: 20px 0;
+            border-radius: 15px;
+        }
+        .wrapper{
+            background: #141414;
+            height: 100vh;
+            margin: 0 20px;
+        }
+        .weui-btn_primary{
+            margin-top: 20px;
+        }
+        #weui-grids{
+            background: #141414;
+            border: 1px solid #141414;
+        }
+        .weui-grid{
+            background: #262626;
+            width : 28%;
+            margin : 8px;
+            position: static;
+        }
+        .weui-grid:before{
+           border-right: none;
+        }
+        .weui-grid__icon img{
+            width: 120%;
+            height: 120%;
+            margin-bottom: 50px;
+        }
+        .weui-grid__label{
+            font-size: 14px;
+            color: #a79175;
+        }
+        .weui-grid__icon+.weui-grid__label {
+            margin-top: 24px;
+            margin-left: 4px
+        }
+        .username{
+            position: absolute;
+            top: 35px;
+            left : 60px;
+            color : #222426;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div style="position: relative;" class="weui-flex">
+            <img class="card" src="/public/card.jpg" alt="" /> 
+            <span class="username"><%= username%></span>
+        </div>
+    <!-- 九宫格 -->
+        <div style="position: static" class="weui-grids">
+                <a href="http://api.zhengshuqian.com/coupon/<%= id%>" class="weui-grid js_grid">
+                  <div class="weui-grid__icon">
+                    <img src="/public/1.png" alt="">
+                  </div>
+                  <p class="weui-grid__label">
+                    优惠券
+                  </p>
+                </a>
+                <a href="http://api.zhengshuqian.com/coupon/history/<%= id%>" class="weui-grid js_grid">
+                    <div class="grid-center">
+                        <div class="weui-grid__icon">
+                            <img src="/public/2.png" alt="">
+                        </div>
+                        <p class="weui-grid__label">
+                            兑换历史
+                        </p>
+                    </div>
+                </a>
+                <a href="" style="position:static" class="weui-grid js_grid">
+                        <div class="weui-grid__icon">
+                          <img src="/public/3.png" alt="">
+                        </div>
+                        <p class="weui-grid__label">
+                          个人资料
+                        </p>
+                      </a>
+              </div>
+              <a href="javascript:window.opener=null;window.open('','_self');window.close();" class="weui-btn weui-btn_primary">退出</a>
+            </div>
+    
+</body>
+</html>
