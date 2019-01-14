@@ -1,81 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>优惠券</title>
-    <link rel="stylesheet" href="/weui.min.css">
-    <link rel="stylesheet" href="/jquery-weui.min.css">
-    <script src="/jquery.min.js"></script>
-    <script src="/jquery-weui.min.js"></script>
-    <script src="/swiper.min.js"></script>
-    <style>
-        body{
-            height: 100vh;
-            background: #141414;
-        }
-        .top{
-            height: 100%;
-            width: 100%;
-        }
-        .weui-panel{
-            position: static;
-        }
-        .box-content{
-            margin-bottom: 25px;
-        }
-        .weui-media-box
-        {
-            background: #141414;
-        }
-        .weui-media-box__title{
-            color: #a79175;
-        }
-        .weui-media-box__desc{
-            color : #816d56;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1">
+  <title>优惠券</title>
 </head>
+<style>
+  html,body{
+    height: 100%;
+    background: #141414;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body,p{
+    margin: 0;
+    padding: 0;
+  }
+  a{
+    text-decoration: none;
+  }
+  .wrapper{
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    height: 100%;
+    /* margin: 0 0.9rem; */
+  }
+  .header{
+    height: 30%;
+    position: relative;
+  }
+  .header img{
+    width: 100%;
+    height: 100%;
+  }
+  .main{
+    height: 70%;
+    margin: 0 1.1rem;
+  }
+  .main .content{
+    position: relative;
+    height: 5rem;
+    width: 100%;
+    border-bottom: 1px solid #3e3e3e;
+  }
+  .main .content .content-type{
+    position: absolute;
+    left: 0;
+    top: 1.1rem;
+    font-size: 16px;
+    color: #a19175;
+  }
+  .main .content .content-endTime{
+    position: absolute;
+    left: 0;
+    bottom: 1.1rem;
+    font-size: 12px;
+    color: #846d53;
+  }
+  .main .content .content-count{
+    position: absolute;
+    right: 0;
+    bottom: 1.1rem;
+    font-size: 14px;
+    color: #a19175;
+  }
+</style>
+<script>
+window.onload = function(){
+   let base_width = 750;
+   let client_width = document.documentElement.clientWidth;  // 手机屏幕宽度
+   document.documentElement.style.fontSize = client_width*35/750+'px'; //根据屏幕宽度计算font-size大小
+
+ };
+</script>
 <body>
-        <div class="wrapper">
-            <div class="weui-flex">
-                <img class="top" src="/public/4.png" alt="">
-            </div>
-            <div class="weui-panel weui-panel_access">
-                    
-                    <div class="weui-panel__bd">
-                        <% for(let i = 0;i < data.length;i++){ %>
-                            <% let _endTime,_type; %>
-                            <% if(data[i].type == 1){ %>
-                                <% _type = 'MUSEE CAFE 咖啡券';} %>
-                            <% if(data[i].type == 2){ %>
-                                <% _type = ((data[i].rate)*10)+"折拍摄券";} %>
-                            <% if(data[i].type == 3){ %>
-                                <% _type = ((data[i].rate)*10)+"折摄影券";} %>
-                            <% _endTime = utils.getDate(parseInt(data[i].endTime)); %>
-                        <a href="/coupon/detail/<%= data[i].id %>/<%= data[i].type %>/<%= data[i].startTime %>/<%= data[i].endTime %>/<%= data[i].count %>/<%= data[i].rate %>">
-                            <div class="weui-media-box weui-media-box_text">
-                                <h4 class="weui-media-box__title"><%= _type %></h4>
-                                <div class="box-content">
-                                    <div style="float: left;text-align: left">
-                                        <p class="weui-media-box__desc"><%= _endTime %>到期</p>
-                                    </div>
-                                    <div style="float: right;text-align: right">
-                                        <p class="weui-media-box__desc">剩余 <%= data[i].count %> </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <% } %>
-                    </div>
-                    <!-- <div class="weui-panel__ft">
-                        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
-                            <div class="weui-cell__bd">查看更多</div>
-                            <span class="weui-cell__ft"></span>
-                        </a>    
-                    </div> -->
-                </div>
+  <div class="wrapper">
+    <div class="header">
+      <img src="./coupons-header.jpg" alt="">
+    </div>
+    <div class="main">
+            <% for(let i = 0;i < data.length;i++){ %>
+                <% let _endTime,_type; %>
+                <% if(data[i].type == 1){ %>
+                    <% _type = 'MUSEE CAFE 咖啡券';} %>
+                <% if(data[i].type == 2){ %>
+                    <% _type = ((data[i].rate)*10)+"折拍摄券";} %>
+                <% if(data[i].type == 3){ %>
+                    <% _type = ((data[i].rate)*10)+"折摄影券";} %>
+                <% _endTime = utils.getDate(parseInt(data[i].endTime)); %>
+    <a href="/coupon/detail/<%= data[i].id %>/<%= data[i].type %>/<%= data[i].startTime %>/<%= data[i].endTime %>/<%= data[i].count %>/<%= data[i].rate %>">
+        <div class="content">
+          <div class="content-type">
+            <%= _type %>
+          </div>
+          <div class="content-endTime">
+            <%= _endTime %>到期
+          </div>
+          <div class="content-count">
+            剩余 <%= data[i].count %> 
+          </div>
         </div>
+    </a>
+    </div>
+  </div>
 </body>
 </html>
