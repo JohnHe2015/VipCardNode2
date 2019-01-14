@@ -92,14 +92,14 @@ window.onload = function(){
       <img src="/public/coupons-header.jpg" alt="">
     </div>
     <div class="main">
-        <% if(data.length == 0){ %>
+        <!-- <% if(data.length == 0){ %> -->
             <!-- <% document.getElementsByClassName('main')[0].className = 'main-empty'; %>
             <% alert('fuck'); %> -->
-            <div class="content-empty">
+            <!-- <div class="content-empty">
                 没有优惠券
-            </div>
-        <% } %>
-        <% else{ %>
+            </div> -->
+        <!-- <% } %> -->
+        <!-- <% else{ %> -->
             <% for(let i = 0;i < data.length;i++){ %>
                 <% let _endTime,_type; %>
                 <% if(data[i].type == 1){ %>
@@ -122,7 +122,7 @@ window.onload = function(){
           </div>
         </div>
     </a>
-    <% } %>
+    <!-- <% } %> -->
     <% } %>
     </div>
   </div>
