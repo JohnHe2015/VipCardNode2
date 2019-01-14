@@ -83,6 +83,7 @@ window.onload = function(){
     let base_width = 750;
     let client_width = document.documentElement.clientWidth;  // 手机屏幕宽度
     document.documentElement.style.fontSize = client_width*35/750+'px'; //根据屏幕宽度计算font-size大小
+    console.log('<% data.length %>');
     if('<% data.length %>' == 0){
         alert('<% data.length %>');
         let html = `<div class="content-empty">没有优惠券</div>`;
