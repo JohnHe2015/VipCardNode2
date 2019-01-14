@@ -80,10 +80,14 @@
 </style>
 <script>
 window.onload = function(){
-   let base_width = 750;
-   let client_width = document.documentElement.clientWidth;  // 手机屏幕宽度
-   document.documentElement.style.fontSize = client_width*35/750+'px'; //根据屏幕宽度计算font-size大小
-
+    let base_width = 750;
+    let client_width = document.documentElement.clientWidth;  // 手机屏幕宽度
+    document.documentElement.style.fontSize = client_width*35/750+'px'; //根据屏幕宽度计算font-size大小
+    if('<% data.length %>' == 0){
+        let html = `<div class="content-empty">没有优惠券</div>`;
+        document.getElementsByClassName("main")[0].className = 'main-empty';
+        document.getElementsByClassName("main-empty")[0].innerHTML = html;
+    }
  };
 </script>
 <body>
@@ -92,12 +96,6 @@ window.onload = function(){
       <img src="/public/coupons-header.jpg" alt="">
     </div>
     <div class="main">
-        <% if(data.length == 0){ %>
-            <% document.getElementsByClassName("main")[0].className = 'main-empty'; %> 
-            <div class="content-empty">
-                没有优惠券
-            </div>
-        <% }else{ %>   
             <% for(let i = 0;i < data.length;i++){ %>
                 <% let _endTime,_type; %>
                 <% if(data[i].type == 1){ %>
@@ -121,7 +119,6 @@ window.onload = function(){
         </div>
     </a>
         <% } %>
-    <% } %>
     </div>
   </div>
 </body>
