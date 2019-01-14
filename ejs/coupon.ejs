@@ -92,6 +92,11 @@ window.onload = function(){
       <img src="/public/coupons-header.jpg" alt="">
     </div>
     <div class="main">
+        <% if(data.length == 0){ %>
+            <div class="content-empty">
+                没有优惠券
+            </div>
+        <% }else{ %>   
             <% for(let i = 0;i < data.length;i++){ %>
                 <% let _endTime,_type; %>
                 <% if(data[i].type == 1){ %>
@@ -114,6 +119,7 @@ window.onload = function(){
           </div>
         </div>
     </a>
+        <% } %>
     <% } %>
     </div>
   </div>
