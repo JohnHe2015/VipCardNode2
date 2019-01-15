@@ -118,15 +118,16 @@ router.get('/register',(req,res,next)=>{
             }
             else
             {
-                res.render('register.ejs',{      //获取的微信用户数据传递给register
-                    data : 
-                    {
-                        username : req.query.username,
-                        openid : req.query.openid,
-                        sex : req.query.sex,
-                        groupid : req.query.groupid
-                    }
-                })
+                // res.render('register.ejs',{      //获取的微信用户数据传递给register
+                //     data : 
+                //     {
+                //         username : req.query.username,
+                //         openid : req.query.openid,
+                //         sex : req.query.sex,
+                //         groupid : req.query.groupid
+                //     }
+                // })
+                res.send(JSON.stringify({errcode:'0',errmsg:"注册成功"}));
             }
         }
     })

@@ -1,154 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>注册</title>
-    <link rel="stylesheet" href="/weui.min.css">
-    <link rel="stylesheet" href="/jquery-weui.min.css">
-    <script src="/jquery.min.js"></script>
-    <script src="/jquery-weui.min.js"></script>
-    <script src="/swiper.min.js"></script>
-    <style>
-        body{
-            height: 100vh;
-            background: #141414;
-        }
-        .header{
-            color: #a79175;
-            text-align: center;
-            height: 60px;
-            line-height: 60px;
-            margin-top: 20px;
-        }
-        .wrapper{
-            background: #141414;
-            height: 100vh;
-            margin: 0 40px;
-        }
-        .weui-cells{
-            background: #141414;
-            position: static;
-        }
-        .weui-cell{
-            position: static;
-            margin: 15px 0;
-            border: 1px solid #595757;
-        }
-        .weui-label{
-            color: #a79175;
-        }
-        .weui-select{
-            color : #ffffff;
-        }
-        form{
-            color: #ffffff;
-        }
-
-    </style>
-    <script>
-    $(function() {  
-        $("#datetime-picker").datetimePicker();
-        $("#submit").click(function() {  
-            $.ajax(
-                { 
-                    url: "http://api.zhengshuqian.com/user/posttemp", 
-                    data : $("#form1").serialize(),
-                    type : "post",
-                    success: function()
-                    {
-                        $.alert({
-                            title: '注册',
-                            text: '恭喜你，注册成功，请等待顾问审核！',
-                            onOK: function () {
-                                window.location.href="./user.html";
-                            }
-                        });
-                       
-                    }, 
-                    error : function(){
-                        $.alert({
-                            title: '注册',
-                            text: '对不起注册失败',
-                            onOK: function () {
-                                //点击确认
-                            }
-                        });
-                    }
-                }
-            );
-
- 
-        }); 
-    });  
-    </script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1">
+  <title>注册</title>
+  <link rel="stylesheet" href="/public/iconfont.css">
+  <link rel="stylesheet" href="/public/icalendar.css">
+  <script src="/public/icalendar.js" charset="utf-8"></script>
 </head>
+<style>
+  html,body{
+    height: 100%;
+    /* background: #141414; */
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  html{
+    background: url('./register-bg.png') 100% 100% no-repeat ;
+    background-size: 100% 100%;
+  }
+  body,p{
+    margin: 0;
+    padding: 0;
+  }
+  a{
+    text-decoration: none;
+  }
+  .wrapper{
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    height: 100%;
+    /* margin: 0 1.2rem; */
+  }
+  .header{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #a79175;
+  }
+  .main{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    color: #a79175;
+    /* padding: 10% auto; */
+  }
+  .main-input{
+    width: 70%;
+    position: relative;
+  }
+  input{
+    width: 100%;
+    height: 36px;
+    background: none;
+    outline: none;
+    border: 1px solid #595757;
+    color: #ffffff;
+    text-indent: 50px;
+    font-size: 16px;
+  }
+  /* input:focus{
+    border: 1px solid #cc3333;
+  } */
+  .errinput{
+    border: 1px solid #cc3333;
+  }
+  .icon-user,.icon-tel,.icon-star-fill,.icon-aixin,.icon-mimacopy,.icon-gou-shi{
+    position: absolute;
+    font-size: 28px;
+    left: 10px;
+    top: 4px;
+    color: #665744;
+  }
+  .footer{
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15%;
+  }
+  .btn{
+    display: inline-block;
+    background-color: #a79175;
+    color: #ffffff;
+    border-radius: 4px;
+    margin: 0 auto;
+    width: 100%;
+    height: 1.92rem;
+    text-align: center;
+    line-height: 1.92rem;
+  }
+
+</style>
+<script>
+  window.onload = ()=>{
+    //init calendar
+    let calendar = new lCalendar();
+			calendar.init({
+				'trigger': '#birthday',
+				'type': 'date'
+			});
+
+    let $ = (selector)=>document.querySelector(selector);
+
+    //get dom
+    let username = $('#username');
+    let mobile = $('#mobile');
+    let sex = $('#sex');
+    let birthday = $('#birthday');
+    let password = $('#password');
+    let password2 = $('#password2');
+    let openid = $('#openid');
+    //validate
+    function validate(){
+      console.log('validating');
+      let arr = [];
+      let pattern1 = /^[0-9a-zA-Z-_]+$/;     //用户名密码
+      let errmsg = "";
+      let flag = false;
+      arr.push(username,mobile,sex,birthday,password,password2);
+      Array.from(arr).forEach((item,index)=>{
+        item.className = "";
+      })
+      Array.from(arr).forEach((item,index)=>{
+        if(item.value.length == 0)
+        {
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('input cant not be null');
+        }
+        if(item.value.length < 8 && item.getAttribute("id") == 'mobile')
+        {
+          alert('手机号不能少于8位');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('mobile length should > 8');
+        }
+        if(!pattern1.test(item.value) && item.getAttribute("id") == 'username' )
+        {
+          alert('用户名只能数字英文下划线的组合');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('username should be ...');
+        }
+        if((item.value != '男' && item.value != '女' ) && item.getAttribute("id") == 'sex')
+        {
+          alert('性别只能为: 男/女');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('sex should be 男/女');
+        }
+        if(!pattern1.test(item.value) && (item.getAttribute("id") == 'password' || item.getAttribute("id") == 'password2'))
+        {
+          alert('密码只能数字英文下划线的组合');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('password should be ...');
+        }
+        if(item.getAttribute('id') == 'password' && item.value.length < 6)
+        {
+          alert('密码长度至少为6');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('password length should > 6');
+        }
+        if(item.getAttribute('id') == 'password2' && item.value.length < 6)
+        {
+          alert('密码长度至少为6');
+          item.focus();
+          item.className = 'errinput';
+          flag = false;
+          throw new Error('password length should > 6');
+        }
+        if(password.value != password2.value)
+        {
+          alert('两次密码不相同');
+          password.className = 'errinput';
+          flag = false;
+          throw new Error('password is different');
+        }
+      })
+      flag = true;
+      return flag;
+    }
+
+    //init ajax
+let sendAjax = ()=>{
+    let url = `/user/posttemp`;
+    let oStr = '';
+    let postData = {};
+    let oAjax = null;
+    let _sex = null;
+    if(sex.value == "男"){
+      _sex = 1;
+    }
+    else{
+      _sex = 2;
+    }
+    postData = {"username":username.value,"mobile":mobile.value,"sex": _sex,"birthday":birthday.value,"password":password.value,"openid":openid};
+    postData = (function(value){
+    　　for(var key in value){
+    　　　　oStr += key+"="+value[key]+"&";
+    　　};
+    　　return oStr;
+    }(postData));
+
+    try{
+    　　oAjax = new XMLHttpRequest();
+    }catch(e){
+    　　oAjax = new ActiveXObject("Microsoft.XMLHTTP");
+    };
+
+    oAjax.open('post',url,true);
+    oAjax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    oAjax.send(postData);
+    oAjax.onreadystatechange = function(){
+    　　//当状态为4的时候，执行以下操作
+    　　if(oAjax.readyState == 4){
+    　　　　try{
+    　　　　　　alert(oAjax.responseText);
+    　　　　}catch(e){
+    　　　　　　alert('注册失败');
+    　　　　};
+    　　};
+    };
+
+}
+    //submit event
+    $('#submit').addEventListener('click',(e)=>{
+       e.preventDefault();
+       if(!validate())
+       {
+         return;
+       }
+       else
+       {
+         //request api
+         console.log('validate success');
+         sendAjax();
+       }
+   },false);
+  }
+</script>
 <body>
+  <div class="wrapper">
     <div class="header">
-        <h2>MUSEE FOTO会员注册</h2>
+      <h2>MUSEE FOTO 会员注册</h2>
     </div>
-    <div class="wrapper">
-    <form  method="post" id="form1">
-        <div class="weui-cells weui-cells_form">
-                <div class="weui-cell">
-                  <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
-                  <div class="weui-cell__bd">
-                    <input name="username" class="weui-input" type="text"  placeholder="请输入用户名" value="<%= data.username%>">
-                  </div>
-                </div>
-
-                <div class="weui-cell weui-cell_vcode">
-                  <div class="weui-cell__hd">
-                    <label class="weui-label">手机号</label>
-                  </div>
-                  <div class="weui-cell__bd">
-                    <input name="mobile" class="weui-input" pattern="[0-9]*" type="tel" placeholder="请输入手机号">
-                  </div>
-                  <div class="weui-cell__ft">
-                    <button class="weui-vcode-btn">获取验证码</button>
-                  </div>
-                </div>
-
-                <div class="weui-cell">
-                  <div class="weui-cell__hd"><label for="" class="weui-label">生日</label></div>
-                  <div class="weui-cell__bd">
-                    <input name="birthday" class="weui-input" type="date" value="">
-                  </div>
-                </div>
-
-
-                <div class="weui-cell ">
-                    <div class="weui-cell__hd"><label class="weui-label">性别</label></div>
-                    <div class="weui-cell__bd">
-                        <select class="weui-select" name="sex">
-                            <option selected value="0"></option>
-                            <option value="1">男</option>
-                            <option value="2">女</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="weui-cell">
-                    <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
-                    <div class="weui-cell__bd">
-                        <input name="password" class="weui-input" type="password"  placeholder="请输入密码">
-                    </div>
-                </div>
-
-                <!-- <div class="weui-cell">
-                    <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" type="password"  placeholder="请再次输入密码">
-                    </div>
-                </div> -->
-
-                <a id="submit" href="javascript:;" class="weui-btn weui-btn_primary">提交注册</a>
-            </div>
-            <input type="hidden" id="openid" name="id" value="<%= data.openid%>"> 
-        </form>     
-    </div> 
-              
+    <div class="main">
+      <input type="hidden" id="openid" name="id" value="<%= data.openid%>"> 
+      <div class="main-input">
+        <span class="iconfont icon-user"></span>
+        <input id="username" name="username" type="text" placeholder="姓名" maxlength="12" />
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-tel"></span>
+        <input id="mobile" name="mobile" type="tel" placeholder="电话" maxlength="11" />
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-gou-shi"></span>
+        <input type="text" placeholder="验证码" maxlength="6" value="6666" readonly/>
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-star-fill"></span>
+        <input id="birthday" name="birthday" type="text" placeholder="生日" data-lcalendar="1900-01-1,2019-12-31" readonly />
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-aixin"></span>
+        <input id="sex" name="sex" type="text" placeholder="性别" maxlength="1" />
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-mimacopy"></span>
+        <input id="password" name="password" type="password" placeholder="密码" maxlength="16" />
+      </div>
+      <div class="main-input">
+        <span class="iconfont icon-mimacopy"></span>
+        <input id="password2" name="password2" type="password" placeholder="确认密码" maxlength="16" />
+      </div>
+    </div>
+    <div class="footer">
+      <a id="submit" class="btn" href="javascript:;">提交注册</a>
+    </div>
+  </div>
 </body>
-
 </html>
