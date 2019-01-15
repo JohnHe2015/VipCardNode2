@@ -136,7 +136,7 @@ router.get('/:id',(req,res,next)=>{    //查询用户未使用的优惠券接口
 
 router.get('/history/:id',(req,res,next)=>{        //优惠券兑换历史接口
     let id = req.params.id;
-    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, useTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,useTime,rate ORDER BY useTime',
+    req.sequelize.query('SELECT COUNT(type) AS count, id, type, rate, useTime FROM coupon_table WHERE id = :id AND isUse = :isUse GROUP BY type,useTime,rate ORDER BY useTime DESC',
     {replacements: { id : id , isUse : 1}, type: req.sequelize.QueryTypes.SELECT})
     .then(result=>{
         if(result != null)
