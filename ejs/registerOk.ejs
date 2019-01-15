@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1">
+    <title>注册</title>
+</head>
+<style>
+    html,body{
+    height: 100%;
+    /* background: #141414; */
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  html{
+    background: url('/public/register-bg.png') 100% 100% no-repeat ;
+    background-size: 100% 100%;
+  }
+  body,p{
+    margin: 0;
+    padding: 0;
+  }
+  a{
+    text-decoration: none;
+  }
+  .wrapper{
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    height: 100%;
+    color: #a79175;
+    /* margin: 0 1.2rem; */
+  }
+  .header{
+      height: 30%;
+      display: flex;
+      flex-direction:column;
+      justify-content: center;
+      align-items: center;
+
+  }
+  .header-span{
+    font-size: 26px;
+    padding-top: 10px;
+  }
+  .main{
+      height: 20%;
+      display: flex;
+      flex-direction:column;
+      justify-content: flex-start;
+      align-items: center;
+  }
+  .footer{
+      height: 50%;
+      display: flex;
+      flex-direction:column;
+      justify-content: flex-start;
+      align-items: center;
+  }
+  .footer img{
+    width: 177px;
+    height: 177px;
+  }
+  span{
+    display: block;
+    padding-bottom: 10px;
+  }
+
+</style>
+<script>
+
+</script>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <span class="header-span">✓</span>
+            <span class="header-span">注册成功</span>
+        </div>
+        <div class="main">
+          <span>请等待管理人员验证</span>
+          <span>长按二维码关注公众号</span>
+          <span>进入会员中心</span>
+        </div>
+        <div class="footer">
+          <img src="/public/museeqrcode.png" alt="">
+        </div>
+    </div>
+</body>
+</html>

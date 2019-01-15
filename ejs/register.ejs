@@ -229,7 +229,11 @@ let sendAjax = ()=>{
     　　//当状态为4的时候，执行以下操作
     　　if(oAjax.readyState == 4){
     　　　　try{
-    　　　　　　alert(oAjax.responseText);
+    　　　　　　let data = JSON.parse(oAjax.responseText);
+              if(data.errcode == '0')
+              {
+                window.location.href('/user/registerOk');
+              }
     　　　　}catch(e){
     　　　　　　alert('注册失败');
     　　　　};

@@ -132,5 +132,9 @@ router.get('/register',(req,res,next)=>{
         }
     })
     
-})
+});
+
+router.get('/registerOk',(req,res,next)=>{
+    res.render('registerOk',{});
+});
 module.exports = router;
