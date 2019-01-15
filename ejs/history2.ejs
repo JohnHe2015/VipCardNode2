@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>兑换历史</title>
+    <link rel="stylesheet" href="/weui.min.css">
+    <link rel="stylesheet" href="/jquery-weui.min.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/jquery-weui.min.js"></script>
+    <script src="/swiper.min.js"></script>
+    <style>
+         body{
+            height: 100vh;
+            background: #141414;
+        }
+        .wrapper{
+            background: #141414;
+            height: 100vh;
+            margin: 0 40px;
+        }
+        .weui-panel{
+            position: static;
+        }
+        .box-content{
+            margin-bottom: 25px;
+        }
+        .weui-media-box
+        {
+            background: #141414;
+        }
+        .weui-media-box__title{
+            color: #a79175;
+        }
+        .weui-media-box__desc{
+            color : #816d56;
+        }
+    </style>
+</head>
+<body>
+        <div class="wrapper">
+                <div class="weui-panel weui-panel_access">
+                    
+                        <div class="weui-panel__bd">
+                            <% for(let i = 0;i < data.length;i++){ %>
+                                <% let _useTime,_type; %>
+                                <% if(data[i].type == 1){ %>
+                                    <% _type = 'MUSEE CAFE 咖啡券';} %>
+                                <% if(data[i].type == 2){ %>
+                                    <% _type = ((data[i].rate)*10)+"折拍摄券";} %>
+                                <% if(data[i].type == 3){ %>
+                                    <% _type = ((data[i].rate)*10)+"折摄影券";} %>
+                                <% _useTime = utils.getFullDate(parseInt(data[i].useTime)); %>
+                            <div class="weui-media-box weui-media-box_text">
+                                <h4 class="weui-media-box__title"><%= _type %></h4>
+                                <div class="box-content">
+                                    <div style="float: left;text-align: left">
+                                        <p class="weui-media-box__desc"><%= _useTime %></p>
+                                    </div>
+                                    <div style="float: right;text-align: right">
+                                        <p class="weui-media-box__desc"><%= data[i].count %>张</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+            </div>
+        </div>
+</body>
+</html>

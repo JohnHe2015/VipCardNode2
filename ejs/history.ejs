@@ -1,72 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>兑换历史</title>
-    <link rel="stylesheet" href="/weui.min.css">
-    <link rel="stylesheet" href="/jquery-weui.min.css">
-    <script src="/jquery.min.js"></script>
-    <script src="/jquery-weui.min.js"></script>
-    <script src="/swiper.min.js"></script>
-    <style>
-         body{
-            height: 100vh;
-            background: #141414;
-        }
-        .wrapper{
-            background: #141414;
-            height: 100vh;
-            margin: 0 40px;
-        }
-        .weui-panel{
-            position: static;
-        }
-        .box-content{
-            margin-bottom: 25px;
-        }
-        .weui-media-box
-        {
-            background: #141414;
-        }
-        .weui-media-box__title{
-            color: #a79175;
-        }
-        .weui-media-box__desc{
-            color : #816d56;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1">
+  <title>兑换历史</title>
+  <style>
+    html,body{
+      height: 100%;
+      background: #141414;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body,p{
+      margin: 0;
+      padding: 0;
+    }
+    a{
+      text-decoration: none;
+    }
+    .wrapper{
+      display: flex;
+      flex-direction:column;
+      justify-content: flex-start;
+      height: 100%;
+      margin: 0 1.2rem;
+    }
+    .main{
+      height: 100%;
+    }
+    .content{
+      position: relative;
+      height: 5rem;
+      width: 100%;
+      border-bottom: 1px solid #3e3e3e;
+    }
+    .main .content .content-type{
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      font-size: 16px;
+      color: #a79175;
+    }
+    .main .content .content-endTime{
+      position: absolute;
+      left: 0;
+      bottom: 1.1rem;
+      font-size: 12px;
+      color: #846d53;
+    }
+    .main .content .content-count{
+      position: absolute;
+      right: 0;
+      bottom: 1.1rem;
+      font-size: 14px;
+      color: #a79175;
+    }
+  </style>
 </head>
+<script>
+  let base_width = 750;
+  let client_width = document.documentElement.clientWidth;  // 手机屏幕宽度
+  document.documentElement.style.fontSize = client_width*35/750+'px'; //根据屏幕宽度计算font-size大小
+</script>
 <body>
-        <div class="wrapper">
-                <div class="weui-panel weui-panel_access">
-                    
-                        <div class="weui-panel__bd">
-                            <% for(let i = 0;i < data.length;i++){ %>
-                                <% let _useTime,_type; %>
-                                <% if(data[i].type == 1){ %>
-                                    <% _type = 'MUSEE CAFE 咖啡券';} %>
-                                <% if(data[i].type == 2){ %>
-                                    <% _type = ((data[i].rate)*10)+"折拍摄券";} %>
-                                <% if(data[i].type == 3){ %>
-                                    <% _type = ((data[i].rate)*10)+"折摄影券";} %>
-                                <% _useTime = utils.getFullDate(parseInt(data[i].useTime)); %>
-                            <div class="weui-media-box weui-media-box_text">
-                                <h4 class="weui-media-box__title"><%= _type %></h4>
-                                <div class="box-content">
-                                    <div style="float: left;text-align: left">
-                                        <p class="weui-media-box__desc"><%= _useTime %></p>
-                                    </div>
-                                    <div style="float: right;text-align: right">
-                                        <p class="weui-media-box__desc"><%= data[i].count %>张</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
-                        </div>
-                    </div>
-            </div>
+  <div class="wrapper">
+    <div class="main">
+            <% for(let i = 0;i < data.length;i++){ %>
+                <% let _useTime,_type; %>
+                <% if(data[i].type == 1){ %>
+                    <% _type = 'MUSEE CAFE 咖啡券';} %>
+                <% if(data[i].type == 2){ %>
+                    <% _type = ((data[i].rate)*10)+"折拍摄券";} %>
+                <% if(data[i].type == 3){ %>
+                    <% _type = ((data[i].rate)*10)+"折摄影券";} %>
+                <% _useTime = utils.getFullDate(parseInt(data[i].useTime)); %>
+      <div class="content">
+        <div class="content-type">
+            <%= _type %>
         </div>
+        <div class="content-endTime">
+            <%= _useTime %>
+        </div>
+        <div class="content-count">
+            <%= data[i].count %>张
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
