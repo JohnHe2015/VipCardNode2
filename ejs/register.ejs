@@ -208,7 +208,7 @@ let sendAjax = ()=>{
     else{
       _sex = 2;
     }
-    postData = {"username":username.value,"mobile":mobile.value,"sex": _sex,"birthday":birthday.value,"password":password.value,"openid":openid.value};
+    postData = {"username":username.value,"mobile":mobile.value,"sex": _sex,"birthday":birthday.value,"password":password.value,"id":openid.value};
     postData = (function(value){
     　　for(var key in value){
     　　　　oStr += key+"="+value[key]+"&";
