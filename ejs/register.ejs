@@ -231,9 +231,10 @@ let sendAjax = ()=>{
     　　　　try{
     　　　　　　let data = JSON.parse(oAjax.responseText);
               console.dir(data);
-              if(data.errcode == '0')
+              if(data.errcode == "0")
               {
-                window.location.href('/user/registerOk');
+                console.log(data.errmsg);
+                window.location.href('http://api.zhengshuqian.com/user/registerOk');
               }
     　　　　}catch(e){
     　　　　　　alert('注册失败');
