@@ -230,6 +230,7 @@ let sendAjax = ()=>{
     　　if(oAjax.readyState == 4){
     　　　　try{
     　　　　　　let data = JSON.parse(oAjax.responseText);
+              console.dir(data);
               if(data.errcode == '0')
               {
                 window.location.href('/user/registerOk');
