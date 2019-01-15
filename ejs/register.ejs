@@ -234,7 +234,7 @@ let sendAjax = ()=>{
               if(data.errcode == "0")
               {
                 console.log(data.errmsg);
-                window.location.href('http://api.zhengshuqian.com/user/registerOk');
+                window.location.href = '/user/registerOk';
               }
     　　　　}catch(e){
     　　　　　　alert('注册失败');
