@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const common = require('./../common/common');
 const request = require('request');
+const moment = require('moment');
 
 router.get('/get',(req,res,next)=>{
     let {username,mobile,birthday,sex,level,page,pageSize} = req.query;
@@ -96,8 +97,19 @@ router.post('/deltemp',(req,res,next)=>{
 });
 
 router.get('/getCount',(req,res,next)=>{
-    let {timestamp} = req.query;
-    req.sequelize.query('SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") =:timestamp;',
+    let {timestamp,type} = req.query;
+    let sql = '';
+    if(type == 'day')
+    {
+        sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") =:timestamp`;
+    }
+    else if(type == "week")
+    {
+        let beforeWeek = moment().add(7, 'days');
+        console.log(beforeWeek);
+        sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") BETWEEN:timestamp AND ${beforeWeek}`;
+    }
+    req.sequelize.query(sql,
     { replacements: {timestamp : timestamp},type : req.sequelize.QueryTypes.SELECT})
     .then(result =>{
         res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
