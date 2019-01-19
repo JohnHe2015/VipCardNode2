@@ -109,6 +109,12 @@ router.get('/getCount',(req,res,next)=>{
         console.log(beforeWeek);
         sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") BETWEEN :timestamp AND '${beforeWeek}'`;
     }
+    else if(type == "week")
+    {
+        let beforeMonth = moment().add(1, 'M').format('YYYY-MM-DD');
+        console.log(beforeMonth);
+        sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") BETWEEN :timestamp AND '${beforeMonth}'`;
+    }
     req.sequelize.query(sql,
     { replacements: {timestamp : timestamp},type : req.sequelize.QueryTypes.SELECT})
     .then(result =>{
