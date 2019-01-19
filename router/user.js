@@ -95,8 +95,8 @@ router.post('/deltemp',(req,res,next)=>{
     })
 });
 
-router.get('/getCount/:timestamp',(req,res,next)=>{
-    let {timestamp} = req.params;
+router.get('/getCount',(req,res,next)=>{
+    let {timestamp} = req.query;
     req.sequelize.query('SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") =:timestamp;',
     { replacements: {timestamp : timestamp},type : req.sequelize.QueryTypes.SELECT})
     .then(result =>{
