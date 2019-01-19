@@ -105,13 +105,13 @@ router.get('/getCount',(req,res,next)=>{
     }
     else if(type == "week")
     {
-        let beforeWeek = moment().add(7, 'days').format('YYYY-MM-DD');
+        let beforeWeek = moment().subtract(7, 'days').format('YYYY-MM-DD');
         console.log(beforeWeek);
         sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") BETWEEN :timestamp AND '${beforeWeek}'`;
     }
     else if(type == "month")
     {
-        let beforeMonth = moment().add(1, 'M').format('YYYY-MM-DD');
+        let beforeMonth = moment().subtract(1, 'M').format('YYYY-MM-DD');
         console.log(beforeMonth);
         sql = `SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") BETWEEN :timestamp AND '${beforeMonth}'`;
     }
