@@ -95,6 +95,15 @@ router.post('/deltemp',(req,res,next)=>{
     })
 });
 
+router.get('/getCount/:timestamp',(req,res,next)=>{
+    let {timestamp} = req.params;
+    req.sequelize.query('SELECT COUNT(*) as count FROM user_table WHERE FROM_UNIXTIME(createTime/1000,"%Y-%m-%d") =:timestamp;',
+    { replacements: {timestamp : timestamp},type : req.sequelize.QueryTypes.SELECT})
+    .then(result =>{
+        res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
+    })
+})
+
 
 router.get('/register',(req,res,next)=>{
     console.log('come in register');
