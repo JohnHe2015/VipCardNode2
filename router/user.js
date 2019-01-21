@@ -165,4 +165,23 @@ router.get('/registerOk',(req,res,next)=>{
     console.log('come in registerOk');
     res.render('registerOk',{});
 });
+
+router.get('/pieChart',(req,res,next)=>{
+    let {type} = req.query;
+    let sql = "";
+    if(type == "1")
+    {
+        sql = `SELECT sex,count(*) FROM user_table GROUP BY sex`; 
+    }
+    else if(type == "2")
+    {
+        sql = `SELECT level,count(*) FROM user_table GROUP BY level`;
+    }
+
+    req.sequelize.query(sql,
+        { replacements: {},type : req.sequelize.QueryTypes.SELECT})
+        .then(result =>{
+            res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
+        })
+});
 module.exports = router;
