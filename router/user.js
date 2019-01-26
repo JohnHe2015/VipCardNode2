@@ -171,11 +171,11 @@ router.get('/pieChart',(req,res,next)=>{
     let sql = "";
     if(type == "1")
     {
-        sql = `SELECT sex,count(*) FROM user_table GROUP BY sex`; 
+        sql = `SELECT sex,count(*) as count FROM user_table GROUP BY sex`; 
     }
     else if(type == "2")
     {
-        sql = `SELECT level,count(*) FROM user_table GROUP BY level`;
+        sql = `SELECT level,count(*) as count FROM user_table GROUP BY level`;
     }
 
     req.sequelize.query(sql,
