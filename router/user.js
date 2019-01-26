@@ -222,5 +222,31 @@ router.get('/year',(req,res,next)=>{
         .then(result =>{
             res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
         });
+});
+
+router.get('/lineChart',(req,res,next)=>{
+    let {year} = req.query;
+    let sql = `SELECT FROM_UNIXTIME(createTime/1000,"%m") as month,count(FROM_UNIXTIME(createTime/1000,"%m")) as count FROM user_table where FROM_UNIXTIME(createTime/1000,"%Y") =:year GROUP BY FROM_UNIXTIME(createTime/1000,"%m") ORDER BY createTime DESC`;
+    req.sequelize.query(sql,
+        { replacements: {year : year}, type : req.sequelize.QueryTypes.SELECT})
+        .then(result =>{
+            let arr = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+            let temp_data = [];
+            for(let i=0;i<arr.length;i++)
+            {
+                try{
+                    if(result[i].month && parseInt(arr[i]).toString() == parseInt(result[i].month).toString())
+                    {
+                        temp_data.push(result[i].count);
+                    }
+                }
+                catch(e)
+                {
+                    temp_data.push(0);
+                }
+            }
+            res.send(JSON.stringify({errcode:"0",errmsg:"",x_data:JSON.stringify(arr),y_data:JSON.stringify(temp_data)}));
+        });
+
 })
 module.exports = router;
