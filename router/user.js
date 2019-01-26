@@ -171,17 +171,31 @@ router.get('/pieChart',(req,res,next)=>{
     let sql = "";
     if(type == "1")
     {
-        sql = `SELECT sex,count(*) as count FROM user_table GROUP BY sex`; 
+        sql = `SELECT sex as name,count(*) as value FROM user_table GROUP BY sex`; 
     }
     else if(type == "2")
     {
-        sql = `SELECT level,count(*) as count FROM user_table GROUP BY level`;
+        sql = `SELECT level as name,count(*) as value FROM user_table GROUP BY level`;
     }
 
     req.sequelize.query(sql,
         { replacements: {},type : req.sequelize.QueryTypes.SELECT})
         .then(result =>{
-            res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
+            let temp_data = result.map((item,index)=>{
+                if(type == "1")
+                {
+                    item.name == "1" ? "男" : "女";
+                }
+                else if(type == "2")
+                {
+                    item.name == "1" ? "Musee会员" : "vip会员";
+                }
+            });
+            let arr = [];
+            temp_data.map((item, index)=>{
+                arr.push(item.name);
+            })
+            res.send(JSON.stringify({errcode:"0",errmsg:"",y_data:JSON.stringify(temp_data),x_data:JSON.stringify(arr)}));
         })
 });
 module.exports = router;
