@@ -214,4 +214,13 @@ router.get('/pieChart',(req,res,next)=>{
             res.send(JSON.stringify({errcode:"0",errmsg:"",y_data:JSON.stringify(temp_data),x_data:JSON.stringify(arr)}));
         })
 });
+
+router.get('/year',(req,res,next)=>{
+    let sql = `SELECT FROM_UNIXTIME(createTime/1000,"%Y") FROM user_table GROUP BY FROM_UNIXTIME(createTime/1000,"%Y") ORDER BY createTime DESC`;
+    req.sequelize.query(sql,
+        { replacements: {},type : req.sequelize.QueryTypes.SELECT})
+        .then(result =>{
+            res.send(JSON.stringify({errcode:"0",errmsg:"",result:JSON.stringify(result)}));
+        });
+})
 module.exports = router;
