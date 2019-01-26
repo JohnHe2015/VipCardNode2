@@ -216,7 +216,7 @@ router.get('/pieChart',(req,res,next)=>{
 });
 
 router.get('/year',(req,res,next)=>{
-    let sql = `SELECT FROM_UNIXTIME(createTime/1000,"%Y") FROM user_table GROUP BY FROM_UNIXTIME(createTime/1000,"%Y") ORDER BY createTime DESC`;
+    let sql = `SELECT FROM_UNIXTIME(createTime/1000,"%Y") as year FROM user_table GROUP BY FROM_UNIXTIME(createTime/1000,"%Y") ORDER BY createTime DESC`;
     req.sequelize.query(sql,
         { replacements: {},type : req.sequelize.QueryTypes.SELECT})
         .then(result =>{
