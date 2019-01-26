@@ -191,6 +191,7 @@ router.get('/pieChart',(req,res,next)=>{
                     item.name == "1" ? "Musee会员" : "vip会员";
                 }
             });
+            console.log(temp_data);
             let arr = [];
             temp_data.map((item, index)=>{
                 arr.push(item.name);
