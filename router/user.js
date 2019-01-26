@@ -184,14 +184,29 @@ router.get('/pieChart',(req,res,next)=>{
             let temp_data = result.map((item,index)=>{
                 if(type == "1")
                 {
-                    item.name == "1" ? "男" : "女";
+                    if(item.name == "1")
+                    {
+                        item.name = "男";
+                    }
+                    else if(item.name == "2"){
+                        item.name = "女";
+                    }
                 }
                 else if(type == "2")
                 {
-                    item.name == "1" ? "Musee会员" : "vip会员";
+                    if(item.name == "1")
+                    {
+                        item.name = "MUSEE会员";
+                    }
+                    else if(item.name == "2"){
+                        item.name = "Vip会员";
+                    }
+                }
+                return{
+                    name : item.name,
+                    value : item.value
                 }
             });
-            console.log(temp_data);
             let arr = [];
             temp_data.map((item, index)=>{
                 arr.push(item.name);
